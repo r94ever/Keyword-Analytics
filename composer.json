@@ -1,0 +1,58 @@
+{
+    "name": "qmas/laravel-keyword-analytics",
+    "description": "Analyze keywords in the content and make diagnostics to improve the seo score of the content.",
+    "keywords": [
+        "qmas",
+        "laravel-keyword-analytics"
+    ],
+    "homepage": "https://github.com/qmas/laravel-keyword-analytics",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "QMAS",
+            "email": "dev@qmas.vn",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.0|^8.0",
+        "ext-json": "*",
+        "ext-intl": "*",
+        "illuminate/support": "^6.0|^7.0|^8.0",
+        "paquettg/php-html-parser": "^2.1"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^8.5.8|^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Qmas\\KeywordAnalytics\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Qmas\\KeywordAnalytics\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Qmas\\KeywordAnalytics\\KeywordAnalyticsServiceProvider"
+            ],
+            "aliases": {
+                "KeywordAnalytics": "Qmas\\KeywordAnalytics\\Facade"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}
