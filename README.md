@@ -45,15 +45,19 @@ php artisan vendor:publish --provider="Qmas\KeywordAnalytics\KeywordAnalyticsSer
 ```
 #### For Lumen
 
-Open `bootstrap/app.php` then add the following code to **Register Service Providers** section:
+Copy `config.php` from `vendor/qmas/laravel-keyword-analytics/config` to `config` directory then rename to `keyword-analytics.php`
+
+Open `bootstrap/app.php` then add the following code to **Create Application** section:
+
+```php
+$app->configure('keyword-analytics');
+```
+
+And the following code to **Register Service Providers** section:
 
 ```php
 $app->register(QMAS\KeywordAnalytics\KeywordAnalyticsServiceProvider::class);
 ```
-
-#### For Lumen
-
-Copy `config.php` from `vendor/qmas/laravel-keyword-analytics/config` to `config` directory then rename to `keyword-analytics.php`
 
 ## Usage
 
