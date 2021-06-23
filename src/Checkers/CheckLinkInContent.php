@@ -2,6 +2,8 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
+use PHPHtmlParser\Dom\Node\Collection;
+use PHPHtmlParser\Dom\Node\HtmlNode;
 use Qmas\KeywordAnalytics\Abstracts\Checker;
 use Qmas\KeywordAnalytics\CheckingMessage;
 
@@ -9,7 +11,7 @@ class CheckLinkInContent extends Checker
 {
     private $min;
 
-    /** @var \PHPHtmlParser\Dom\Collection */
+    /** @var Collection */
     protected $links;
 
     /** @var int $linksCount */
@@ -43,7 +45,7 @@ class CheckLinkInContent extends Checker
     protected function countOutboundLinks()
     {
         $this->links->each(function ($link) {
-            /** @var \PHPHtmlParser\Dom\HtmlNode $link */
+            /** @var HtmlNode $link */
             $url = $link->getAttribute('href');
 
             if (filter_var($url, FILTER_VALIDATE_URL)) {

@@ -2,7 +2,8 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
-use Illuminate\Support\Str;
+use PHPHtmlParser\Dom\Node\Collection;
+use PHPHtmlParser\Dom\Node\HtmlNode;
 use Qmas\KeywordAnalytics\Abstracts\Checker;
 use Qmas\KeywordAnalytics\CheckingMessage;
 use Qmas\KeywordAnalytics\Helper;
@@ -11,7 +12,7 @@ class CheckKeywordInLinkTitle extends Checker
 {
     private $min;
 
-    /** @var \PHPHtmlParser\Dom\Collection */
+    /** @var Collection */
     protected $links;
 
     protected $keyword;
@@ -48,7 +49,7 @@ class CheckKeywordInLinkTitle extends Checker
     protected function countKeyword()
     {
         $this->links->each(function ($link) {
-            /** @var \PHPHtmlParser\Dom\HtmlNode $link */
+            /** @var HtmlNode $link */
             $title = Helper::unicodeToAscii($link->getAttribute('title'));
 
             if (Helper::strContains($title, $this->keyword)) {

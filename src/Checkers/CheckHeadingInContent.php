@@ -2,6 +2,7 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
+use PHPHtmlParser\Dom\Node\Collection;
 use Qmas\KeywordAnalytics\Abstracts\Checker;
 use Qmas\KeywordAnalytics\CheckingMessage;
 
@@ -11,7 +12,7 @@ class CheckHeadingInContent extends Checker
 
     protected $dom;
 
-    /** @var \PHPHtmlParser\Dom\Collection $headings */
+    /** @var Collection $headings */
     protected $headings;
 
     /** @var int $headingCount */

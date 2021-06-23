@@ -2,6 +2,7 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
+use PHPHtmlParser\Dom\Node\Collection;
 use Qmas\KeywordAnalytics\Abstracts\Checker;
 use Qmas\KeywordAnalytics\CheckingMessage;
 
@@ -9,7 +10,7 @@ class CheckImageInContent extends Checker
 {
     private $min;
 
-    /** @var \PHPHtmlParser\Dom\Collection $images */
+    /** @var Collection $images */
     protected $images;
 
     /** @var int $imagesCount */

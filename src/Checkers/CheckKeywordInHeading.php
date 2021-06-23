@@ -2,6 +2,8 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
+use PHPHtmlParser\Dom\Node\Collection;
+use PHPHtmlParser\Dom\Node\HtmlNode;
 use Qmas\KeywordAnalytics\Abstracts\Checker;
 use Qmas\KeywordAnalytics\CheckingMessage;
 use Qmas\KeywordAnalytics\Helper;
@@ -13,7 +15,7 @@ class CheckKeywordInHeading extends Checker
     /** @var string $keyword */
     protected $keyword;
 
-    /** @var \PHPHtmlParser\Dom\Collection */
+    /** @var Collection */
     protected $headings;
 
     protected $headingsContainKeyword = 0;
@@ -31,7 +33,7 @@ class CheckKeywordInHeading extends Checker
     public function check(): Checker
     {
         $this->headings->each(function($heading) {
-            /** @var \PHPHtmlParser\Dom\HtmlNode $heading */
+            /** @var HtmlNode $heading */
             $innerHeading = Helper::unicodeToAscii($heading->innerHtml());
 
             if (Helper::strContains($innerHeading, $this->keyword)) {

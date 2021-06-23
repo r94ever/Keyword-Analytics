@@ -5,6 +5,7 @@ namespace Qmas\KeywordAnalytics;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use PHPHtmlParser\Dom;
+use PHPHtmlParser\Options;
 use Qmas\KeywordAnalytics\Checkers\CheckContentLength;
 use Qmas\KeywordAnalytics\Checkers\CheckDescriptionLength;
 use Qmas\KeywordAnalytics\Checkers\CheckHeadingInContent;
@@ -47,13 +48,13 @@ class Analysis
     /** @var Dom $dom */
     protected $dom;
 
-    /** @var Dom\Collection $headings */
+    /** @var Dom\Node\Collection $headings */
     protected $headings;
 
-    /** @var Dom\Collection $images */
+    /** @var Dom\Node\Collection $images */
     protected $images;
 
-    /** @var Dom\Collection $links */
+    /** @var Dom\Node\Collection $links */
     protected $links;
 
     /** @var Collection $results */

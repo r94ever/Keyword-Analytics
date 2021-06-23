@@ -2,8 +2,8 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
+use PHPHtmlParser\Dom\Node\HtmlNode;
 use Qmas\KeywordAnalytics\Abstracts\Checker;
-use Illuminate\Support\Str;
 use Qmas\KeywordAnalytics\CheckingMessage;
 use Qmas\KeywordAnalytics\Helper;
 
@@ -44,7 +44,7 @@ class CheckKeywordInImgAlt extends CheckImageInContent
     protected function countKeyword()
     {
         $this->images->each(function ($image) {
-            /** @var \PHPHtmlParser\Dom\HtmlNode $image */
+            /** @var HtmlNode $image */
             $alt = Helper::unicodeToAscii($image->getAttribute('alt'));
 
             if (Helper::strContains($alt, $this->keyword)) {
