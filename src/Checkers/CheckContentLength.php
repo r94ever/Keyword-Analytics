@@ -57,7 +57,7 @@ class CheckContentLength extends Checker
             CheckingMessage::WARNING_TYPE,
             CheckingMessage::HTML_FIELD,
             CheckingMessage::TOO_SHORT_MSG_ID,
-            __('The text should contain more then :min words to be recognized as relevant.', ['min' => $this->min]),
+            __('The text should contain more than :min words to be recognized as relevant.', ['min' => $this->min]),
             CheckingMessage::WORD_COUNT_VALIDATOR,
             ["wordCount" => $this->htmlWordsCount, "min" => $this->min,]
         ))->build();
