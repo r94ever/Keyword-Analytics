@@ -67,9 +67,9 @@ class CheckContentLength extends Checker
     {
         return (new CheckingMessage(
             CheckingMessage::SUCCESS_TYPE,
-            CheckingMessage::DESCRIPTION_FIELD,
+            CheckingMessage::HTML_FIELD,
             CheckingMessage::SUCCESS_MSG_ID,
-            __('Great. The text contains more than :min words.', ['min' => $this->min]),
+            __('Great. The content contains more than :min words.', ['min' => $this->min]),
             CheckingMessage::LENGTH_VALIDATOR,
             ["wordCount" => $this->htmlWordsCount, "min" => $this->min]
         ))->build();
