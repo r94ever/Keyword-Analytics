@@ -61,10 +61,13 @@ $app->register(QMAS\KeywordAnalytics\KeywordAnalyticsServiceProvider::class);
 
 ## Usage
 
+#### For Laravel
+
 ```php
 use Qmas\KeywordAnalytics\Facade as Analytic;
 
 $results = Analytic::run($keyword, $title, $description, $html, $url)->getResults();
+$results = app('keyword-analytics')->run($keyword, $title, $description, $html, $url)->getResults();
 ```
 
 Or you can run instance from request
@@ -73,7 +76,24 @@ Or you can run instance from request
 use Qmas\KeywordAnalytics\Facade as Analytic;
 
 $results = Analytic::fromRequest()->run()->getResults();
+$results = app('keyword-analytics')->fromRequest()->run()->getResults();
 ```
+
+#### For Lumen
+
+```php
+use Qmas\KeywordAnalytics\Analysis;
+
+$results = app(Analysis::class)->run($keyword, $title, $description, $html, $url)->getResults();
+```
+
+Or you can run instance from request
+
+```php
+use Qmas\KeywordAnalytics\Analysis;
+
+$results = app(Analysis::class)->fromRequest()->run()->getResults();
+````
 
 ### Testing
 
@@ -95,7 +115,7 @@ If you discover any security related issues, please email dev@qmas.vn instead of
 
 ## Credits
 
--   [QMAS](https://github.com/qmas)
+-   [QMAS](https://github.com/QMAS-Projects)
 -   [All Contributors](../../contributors)
 
 ## License
