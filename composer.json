@@ -20,7 +20,7 @@
         "ext-json": "*",
         "ext-intl": "*",
         "illuminate/support": "^6.0|^7.0|^8.0",
-        "paquettg/php-html-parser": "^2.1"
+        "paquettg/php-html-parser": "^3.1"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",
