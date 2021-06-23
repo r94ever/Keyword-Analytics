@@ -3,6 +3,7 @@
 namespace Qmas\KeywordAnalytics;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Request;
 use PHPHtmlParser\Dom;
 use Qmas\KeywordAnalytics\Checkers\CheckContentLength;
 use Qmas\KeywordAnalytics\Checkers\CheckDescriptionLength;
@@ -74,11 +75,11 @@ class Analysis
     public function fromRequest(): Analysis
     {
         $this->prepareData(
-            request(config('keyword-analytics.request_keys.keyword')),
-            request(config('keyword-analytics.request_keys.title')),
-            request(config('keyword-analytics.request_keys.description')),
-            request(config('keyword-analytics.request_keys.html')),
-            request(config('keyword-analytics.request_keys.url'))
+            Request::input(config('keyword-analytics.request_keys.keyword')),
+            Request::input(config('keyword-analytics.request_keys.title')),
+            Request::input(config('keyword-analytics.request_keys.description')),
+            Request::input(config('keyword-analytics.request_keys.html')),
+            Request::input(config('keyword-analytics.request_keys.url'))
         );
 
         $this->isFromRequest = true;
