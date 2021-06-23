@@ -102,14 +102,18 @@ class Analysis
         $this->html         = $this->stripUnnecessaryTags($html);
         $this->content      = Helper::unicodeToAscii(Helper::stripHtmlTags($this->html));
 
-//        dump(
-//            $this->keyword,
-//            $this->title,
-//            $this->description,
-//            $this->url,
-//            $this->html,
-//            $this->content
-//        );
+        $this->dom = new Dom();
+
+        $this->dom->setOptions(
+            (new Options())->setCleanupInput(true)
+                ->setRemoveScripts(true)
+                ->setRemoveSmartyScripts(true)
+                ->setRemoveStyles(true)
+        );
+
+        $this->dom->loadStr($this->html);
+
+        $this->findDomNodes();
     }
 
     public function getResults(): Collection
@@ -131,7 +135,7 @@ class Analysis
             $html
         );
 
-        return str_replace(['<html>', '</html>', '<body>', '</body>'], "", $html);
+        return str_replace(['<html>', '</html>', '<body>', '</body>', '\n', '\t'], " ", $html);
     }
 
     /**
@@ -146,9 +150,6 @@ class Analysis
 
     protected function findDomNodes()
     {
-        $this->dom = new Dom();
-        $this->dom->loadStr($this->html);
-
         $this->images       = $this->dom->find('img');
         $this->headings     = $this->dom->find('h1,h2,h3,h4,h5,h6');
         $this->links        = $this->dom->find('a');
@@ -165,8 +166,6 @@ class Analysis
         if (! $this->isFromRequest) {
             $this->prepareData($keyword, $title, $description, $html, $url);
         }
-
-        $this->findDomNodes();
 
         $this->checkKeywordLength()
             ->checkTitleLength()
