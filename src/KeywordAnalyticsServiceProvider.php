@@ -14,7 +14,7 @@ class KeywordAnalyticsServiceProvider extends ServiceProvider
         /*
          * Optional methods to load your package assets
          */
-         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'keyword-analytics');
+         $this->loadJsonTranslationsFrom(__DIR__.'/../resources/lang');
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-keyword-analytics');
         // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
