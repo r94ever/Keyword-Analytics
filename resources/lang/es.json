@@ -1,7 +1,4 @@
 {
-    "Unauthorized.": "No autorizado",
-    "Too many requests per day while the maximum requests allowed is :count.": "Demasiadas solicitudes por día, mientras que el número máximo de solicitudes permitidas es de :count.",
-    "Keyword / Keyphrase not set": "Palabra clave / frase clave no configurada",
     "The keyword / keyphrase should be more than :min and less than :max words.": "La palabra clave / frase clave debe tener más de :min y menos de :max palabras..",
     "The page title should be more than :min and less than :max chars long.": "El título de la página debe tener más de :min y menos de :max caracteres.",
     "The page title does not contain the keyword.": "El título de la página no contiene la palabra clave.",
