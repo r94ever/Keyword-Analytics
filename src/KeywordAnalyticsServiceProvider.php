@@ -14,15 +14,21 @@ class KeywordAnalyticsServiceProvider extends ServiceProvider
         /*
          * Optional methods to load your package assets
          */
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-keyword-analytics');
+         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'keyword-analytics');
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-keyword-analytics');
         // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         if ($this->app->runningInConsole()) {
+            // Publishing the configuration file.
             $this->publishes([
                 __DIR__.'/../config/config.php' => config_path('keyword-analytics.php'),
             ], 'config');
+
+            // Publishing the translation files.
+            $this->publishes([
+                __DIR__.'/../resources/lang' => resource_path('lang/vendor/keyword-analytics'),
+            ], 'lang');
 
             // Publishing the views.
             /*$this->publishes([
@@ -33,11 +39,6 @@ class KeywordAnalyticsServiceProvider extends ServiceProvider
             /*$this->publishes([
                 __DIR__.'/../resources/assets' => public_path('vendor/laravel-keyword-analytics'),
             ], 'assets');*/
-
-            // Publishing the translation files.
-            /*$this->publishes([
-                __DIR__.'/../resources/lang' => resource_path('lang/vendor/laravel-keyword-analytics'),
-            ], 'lang');*/
 
             // Registering package commands.
             // $this->commands([]);

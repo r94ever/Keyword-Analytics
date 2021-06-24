@@ -82,7 +82,7 @@ class CheckKeywordDensity extends Checker
             CheckingMessage::ERROR_TYPE,
             CheckingMessage::HTML_FIELD,
             CheckingMessage::KEYWORD_DENSITY_TOO_HIGH_MSG_ID,
-            __('The keyword density is :density which is too high. The keyword was found :count times.', [
+            __('The keyword density is :density% which is too high. The keyword was found :count times.', [
                 'density' => $this->density,
                 'count' => $this->keywordCount
             ]),
