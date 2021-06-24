@@ -56,7 +56,7 @@ class CheckKeywordInTitle extends CheckTitleLength
             CheckingMessage::IGNORED_TYPE,
             CheckingMessage::TITLE_FIELD,
             CheckingMessage::IGNORE_MSG_ID,
-            __('The title is empty.'),
+            __('The page title is empty.'),
             CheckingMessage::KEYWORD_COUNT_VALIDATOR,
             ["min" => $this->min, "max" => $this->max]
         ))->build();
@@ -80,7 +80,7 @@ class CheckKeywordInTitle extends CheckTitleLength
             CheckingMessage::ERROR_TYPE,
             CheckingMessage::TITLE_FIELD,
             CheckingMessage::KEYWORD_TOO_LOW_MSG_ID,
-            __('The page title should only contain the keyword once or twice.'),
+            __('The keyword should appear in the title at least :min times.', ['min' => $this->min]),
             CheckingMessage::KEYWORD_COUNT_VALIDATOR,
             ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount]
         ))->build();
@@ -92,7 +92,7 @@ class CheckKeywordInTitle extends CheckTitleLength
             CheckingMessage::ERROR_TYPE,
             CheckingMessage::TITLE_FIELD,
             CheckingMessage::KEYWORD_TOO_OFTEN_MSG_ID,
-            __('The page title should only contain the keyword once or twice.'),
+            __('Keywords should not appear in the title more than :max times.', ['max' => $this->max]),
             CheckingMessage::KEYWORD_COUNT_VALIDATOR,
             ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount]
         ))->build();
@@ -104,7 +104,7 @@ class CheckKeywordInTitle extends CheckTitleLength
             CheckingMessage::SUCCESS_TYPE,
             CheckingMessage::TITLE_FIELD,
             CheckingMessage::SUCCESS_MSG_ID,
-            __('The page title contains the keyword once or twice.'),
+            __('Great! The title contains keywords with a reasonable density.'),
             CheckingMessage::KEYWORD_COUNT_VALIDATOR,
             ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount]
         ))->build();

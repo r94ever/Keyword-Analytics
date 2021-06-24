@@ -94,7 +94,7 @@ class CheckKeywordInUrl extends Checker
             CheckingMessage::ERROR_TYPE,
             CheckingMessage::URL_FIELD,
             CheckingMessage::KEYWORD_TOO_LOW_MSG_ID,
-            __('The url should only contain the keyword once or twice.'),
+            __('The keyword should appear in the URL at least :min times.', ['min' => $this->min]),
             CheckingMessage::KEYWORD_COUNT_VALIDATOR,
             ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount]
         ))->build();
@@ -106,7 +106,7 @@ class CheckKeywordInUrl extends Checker
             CheckingMessage::ERROR_TYPE,
             CheckingMessage::URL_FIELD,
             CheckingMessage::KEYWORD_TOO_OFTEN_MSG_ID,
-            __('The url should only contain the keyword once or twice.'),
+            __('Keywords should not appear in the URL more than :max times.', ['max' => $this->max]),
             CheckingMessage::KEYWORD_COUNT_VALIDATOR,
             ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount]
         ))->build();
@@ -118,7 +118,7 @@ class CheckKeywordInUrl extends Checker
             CheckingMessage::SUCCESS_TYPE,
             CheckingMessage::URL_FIELD,
             CheckingMessage::SUCCESS_MSG_ID,
-            __('The url contains the keyword once or twice.'),
+            __('Keywords appear in the URL at a reasonable density.'),
             CheckingMessage::KEYWORD_COUNT_VALIDATOR,
             ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount]
         ))->build();
