@@ -1,4 +1,5 @@
 {
+    "Keyword / Keyphrase not set": "Không phát hiện từ khóa trong yêu cầu.",
     "The keyword / keyphrase should be more than :min and less than :max words.": "Từ khóa nên chứa nhiều hơn :min từ và ít hơn :max từ.",
     "The page title should be more than :min and less than :max chars long.": "Tiêu đề bài viết nên chứa nhiều hơn :min và ít hơn :max ký tự.",
     "The page title does not contain the keyword.": "Không phát hiện từ khóa trong tiêu đề bài viết.",

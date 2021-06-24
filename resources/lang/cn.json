@@ -1,4 +1,5 @@
 {
+    "Keyword / Keyphrase not set": "未设置关键字/关键字词",
     "The keyword / keyphrase should be more than :min and less than :max words.": "关键字/关键短语应大于 :min 且小于 :max 个单词。",
     "The page title should be more than :min and less than :max chars long.": "页面标题的长度应大于 :min 且小于 :max 个字符。",
     "The page title does not contain the keyword.": "页面标题不包含关键字。",

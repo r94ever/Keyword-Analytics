@@ -1,4 +1,5 @@
 {
+    "Keyword / Keyphrase not set": "キーワード/キーフレーズが設定されていません",
     "The keyword / keyphrase should be more than :min and less than :max words.": "キーワード/キーフレーズは:min語以上:max語未満である必要があります。",
     "The page title should be more than :min and less than :max chars long.": "ページタイトルは、:min文字以上:max文字未満である必要があります。",
     "The page title does not contain the keyword.": "ページタイトルにキーワードが含まれていません。",

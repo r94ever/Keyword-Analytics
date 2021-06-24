@@ -1,4 +1,5 @@
 {
+    "Keyword / Keyphrase not set": "Mot-clé/phrase-clé non défini",
     "The keyword / keyphrase should be more than :min and less than :max words.": "Le mot clé / phrase clé doit être supérieur à :min et inférieur à :max mots.",
     "The page title should be more than :min and less than :max chars long.": "Le titre de la page doit comporter plus de :min et moins de :max caractères.",
     "The page title does not contain the keyword.": "Le titre de la page ne contient pas le mot-clé.",

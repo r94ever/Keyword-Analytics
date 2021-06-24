@@ -1,4 +1,5 @@
 {
+    "Keyword / Keyphrase not set": "Ключевое слово / ключевая фраза не установлена.",
     "The keyword / keyphrase should be more than :min and less than :max words.": "Ключевое слово / ключевая фраза должны быть больше :min и меньше :max слов.",
     "The page title should be more than :min and less than :max chars long.": "Заголовок страницы должен содержать более :min и менее :max символов.",
     "The page title does not contain the keyword.": "Заголовок страницы не содержит ключевого слова.",

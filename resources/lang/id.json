@@ -1,4 +1,5 @@
 {
+    "Keyword / Keyphrase not set": "Kata Kunci / Frasa Kunci tidak disetel",
     "The keyword / keyphrase should be more than :min and less than :max words.": "Kata kunci / frase kunci harus lebih dari :min dan kurang dari :max kata.",
     "The page title should be more than :min and less than :max chars long.": "Judul halaman harus lebih dari :min dan kurang dari :max karakter.",
     "The page title does not contain the keyword.": "Judul halaman tidak mengandung kata kunci.",
