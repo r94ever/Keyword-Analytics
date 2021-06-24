@@ -34,5 +34,10 @@
     "The url should only contain the keyword once or twice.": "Url hanya boleh berisi kata kunci sekali atau dua kali.",
     "The url contains the keyword once or twice.": "Url berisi kata kunci sekali atau dua kali.",
     "Great. The content should contain more than :min words.": "Bagus. Konten harus berisi lebih dari :min kata.",
-    "Great. The TITLE attribute in your A tags containing the keyword.": "Bagus. Atribut TITLE dalam tag A Anda yang berisi kata kunci."
+    "Great. The TITLE attribute in your A tags containing the keyword.": "Bagus. Atribut TITLE dalam tag A Anda yang berisi kata kunci.",
+    "No image found in content. Please consider to add at least :min images to your content.": "Tidak ada gambar yang ditemukan dalam konten. Harap pertimbangkan untuk menambahkan setidaknya :min gambar ke konten Anda.",
+    "Too few images. Please consider adding at least :remain images to your content to increase the relevance": "Terlalu sedikit gambar. Harap pertimbangkan untuk menambahkan setidaknya :remain gambar ke konten Anda untuk meningkatkan relevansi",
+    "The keyword should appear in the ALT attribute of at least :min IMG tags": "Kata kunci harus muncul di atribut ALT minimal :min tag IMG",
+    "The keyword should appear in the TITLE attribute of at least :min links": "Kata kunci harus muncul di atribut TITLE minimal :min tautan.",
+    "The TITLE attribute in your link tags should contain the keyword.": "Kata kunci akan muncul di atribut TITLE dari tautan."
 }

@@ -34,5 +34,10 @@
     "The url should only contain the keyword once or twice.": "Từ khóa nên xuất hiện khoảng 1 đến 2 lần trong đường dẫn URL của bài viết.",
     "The url contains the keyword once or twice.": "Phát hiện từ khóa có trong đường dẫn URL của bài viết với một mật độ hợp lý.",
     "Great. The content should contain more than :min words.": "Rất tốt! Nội dung bài viết chứa nhiều hơn 300 từ.",
-    "Great. The TITLE attribute in your A tags containing the keyword.": "Rất tốt. thuộc tính TITLE của liên kết có chứa từ khóa trong đó."
+    "Great. The TITLE attribute in your A tags containing the keyword.": "Rất tốt. thuộc tính TITLE của liên kết có chứa từ khóa trong đó.",
+    "No image found in content. Please consider to add at least :min images to your content.": "Không phát hiện hình ảnh. Hãy cân nhắc bổ sung ít nhất :min hình ảnh vào nội dung bài viết.",
+    "Too few images. Please consider adding at least :remain images to your content to increase the relevance": "Quá ít hình ảnh. Hãy cân nhắc bổ sung thêm ít nhất :remain ảnh nữa vào nội dung bài viết.",
+    "The keyword should appear in the ALT attribute of at least :min IMG tags": "Từ khóa nên xuất hiện trong thuộc tính ALT của ít nhất :min thẻ IMG.",
+    "The keyword should appear in the TITLE attribute of at least :min links": "Từ khóa nên xuất hiện trong thuộc tính TITLE của ít nhất :min liên kết.",
+    "The TITLE attribute in your link tags should contain the keyword.": "Từ khóa nên xuất hiện trong thuộc tính TITLE của các liên kết."
 }

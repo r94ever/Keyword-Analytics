@@ -34,5 +34,10 @@
     "The url should only contain the keyword once or twice.": "URLには、キーワードを1回または2回だけ含める必要があります。",
     "The url contains the keyword once or twice.": "URLには、キーワードが1回または2回含まれています。",
     "Great. The content should contain more than :min words.": "すごい。 コンテンツには:min語以上が含まれている必要があります。",
-    "Great. The TITLE attribute in your A tags containing the keyword.": "すごい。 キーワードを含むAタグのTITLE属性。"
+    "Great. The TITLE attribute in your A tags containing the keyword.": "すごい。 キーワードを含むAタグのTITLE属性。",
+    "No image found in content. Please consider to add at least :min images to your content.": "コンテンツに画像が見つかりません。 コンテンツに少なくとも:minつの画像を追加することを検討してください。",
+    "Too few images. Please consider adding at least :remain images to your content to increase the relevance": "画像が少なすぎます。 関連性を高めるために、コンテンツに少なくとも:remainつの画像を追加することを検討してください",
+    "The keyword should appear in the ALT attribute of at least :min IMG tags": "キーワードは、少なくとも:minつのIMGタグのALT属性に含まれている必要があります",
+    "The keyword should appear in the TITLE attribute of at least :min links": "キーワードは、少なくとも:minつのリンクのTITLE属性に表示される必要があります。",
+    "The TITLE attribute in your link tags should contain the keyword.": "キーワードは、リンクのTITLE属性に表示されます。"
 }

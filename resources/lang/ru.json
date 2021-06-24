@@ -34,5 +34,10 @@
     "The url should only contain the keyword once or twice.": "URL-адрес должен содержать ключевое слово только один или два раза.",
     "The url contains the keyword once or twice.": "URL-адрес содержит ключевое слово один или два раза.",
     "Great. The content should contain more than :min words.": "Отлично. Контент содержит более :min-х слов.",
-    "Great. The TITLE attribute in your A tags containing the keyword.": "Отлично. Атрибут TITLE в ваших тегах A, содержащий ключевое слово."
+    "Great. The TITLE attribute in your A tags containing the keyword.": "Отлично. Атрибут TITLE в ваших тегах A, содержащий ключевое слово.",
+    "No image found in content. Please consider to add at least :min images to your content.": "В контенте нет изображения. Пожалуйста, подумайте о том, чтобы добавить как минимум :min изображения к вашему контенту.",
+    "Too few images. Please consider adding at least :remain images to your content to increase the relevance": "Слишком мало изображений. Пожалуйста, подумайте о добавлении как минимум :remain изображений в свой контент, чтобы повысить релевантность.",
+    "The keyword should appear in the ALT attribute of at least :min IMG tags": "Ключевое слово должно присутствовать в атрибуте ALT не менее :min тегов IMG.",
+    "The keyword should appear in the TITLE attribute of at least :min links": "Ключевое слово должно появиться в атрибуте TITLE не менее :min ссылок.",
+    "The TITLE attribute in your link tags should contain the keyword.": "Ключевое слово должно появиться в атрибуте TITLE ссылок."
 }

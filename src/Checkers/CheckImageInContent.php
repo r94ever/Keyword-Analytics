@@ -55,11 +55,13 @@ class CheckImageInContent extends Checker
 
     protected function msgIfNotEnough(): array
     {
+        $remain = $this->min - $this->imagesCount;
+
         return (new CheckingMessage(
             CheckingMessage::WARNING_TYPE,
             CheckingMessage::HTML_FIELD,
             CheckingMessage::SUCCESS_MSG_ID,
-            __('Too few images in content. Please consider to add more images to your html.'),
+            __('Too few images. Please consider adding at least :remain images to your content to increase the relevance.'),
             CheckingMessage::TOO_FEW_IMAGES_MSG_ID,
             ['min' => $this->min, 'imageCount' => $this->imagesCount]
         ))->build();
@@ -71,7 +73,7 @@ class CheckImageInContent extends Checker
             CheckingMessage::WARNING_TYPE,
             CheckingMessage::HTML_FIELD,
             CheckingMessage::NO_IMAGE_MSG_ID,
-            __('No image found in content. Please consider to add at least :num images to your html.', ['num' => $this->min]),
+            __('No image found in content. Please consider to add at least :min images to your content.', ['min' => $this->min]),
             CheckingMessage::IMAGE_COUNT_VALIDATOR,
             ['min' => $this->min, 'imageCount' => $this->imagesCount]
         ))->build();

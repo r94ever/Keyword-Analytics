@@ -47,7 +47,7 @@ class CheckContentLength extends Checker
             CheckingMessage::IGNORE_MSG_ID,
             '',
             CheckingMessage::WORD_COUNT_VALIDATOR,
-            ["min" => $this->min]
+            ["min" => $this->min, "wordCount" => $this->htmlWordsCount, ]
         ))->build();
     }
 

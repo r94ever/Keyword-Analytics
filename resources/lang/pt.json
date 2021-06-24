@@ -34,5 +34,10 @@
     "The url should only contain the keyword once or twice.": "O url deve conter a palavra-chave apenas uma ou duas vezes.",
     "The url contains the keyword once or twice.": "O url contém a palavra-chave uma ou duas vezes.",
     "Great. The content should contain more than :min words.": "Excelente. O conteúdo deve conter mais de 2 palavras.",
-    "Great. The TITLE attribute in your A tags containing the keyword.": "Excelente. O atributo TITLE em suas tags A contendo a palavra-chave."
+    "Great. The TITLE attribute in your A tags containing the keyword.": "Excelente. O atributo TITLE em suas tags A contendo a palavra-chave.",
+    "No image found in content. Please consider to add at least :min images to your content.": "Nenhuma imagem encontrada no conteúdo. Considere adicionar pelo menos :min imagens ao seu conteúdo.",
+    "Too few images. Please consider adding at least :remain images to your content to increase the relevance": "Poucas imagens. Considere adicionar pelo menos :remain imagens ao seu conteúdo para aumentar a relevância",
+    "The keyword should appear in the ALT attribute of at least :min IMG tags": "A palavra-chave deve aparecer no atributo ALT de pelo menos :min tags IMG",
+    "The keyword should appear in the TITLE attribute of at least :min links": "A palavra-chave deve aparecer no atributo TITLE de pelo menos :min links.",
+    "The TITLE attribute in your link tags should contain the keyword.": "A palavra-chave deve aparecer no atributo TITLE dos links."
 }

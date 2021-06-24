@@ -76,7 +76,7 @@ class CheckKeywordInLinkTitle extends Checker
             CheckingMessage::WARNING_TYPE,
             CheckingMessage::HTML_FIELD,
             CheckingMessage::KEYWORD_TOO_LOW_MSG_ID,
-            __('Found keyword in the TITLE attribute in A tags only :num times. Consider to add more', ['num' => $this->keywordCount]),
+            __('The keyword should appear in the TITLE attribute of at least :min links', ['min' => $this->min]),
             CheckingMessage::KEYWORD_COUNT_VALIDATOR,
             ['min' => $this->min, 'keywordCount' => $this->keywordCount]
         ))->build();
@@ -88,7 +88,7 @@ class CheckKeywordInLinkTitle extends Checker
             CheckingMessage::WARNING_TYPE,
             CheckingMessage::HTML_FIELD,
             CheckingMessage::KEYWORD_NOT_FOUND_MSG_ID,
-            __('The TITLE attribute in your A tags should contain the keyword.'),
+            __('The TITLE attribute in your link tags should contain the keyword.'),
             CheckingMessage::KEYWORD_COUNT_VALIDATOR,
             ['min' => $this->min, 'keywordCount' => 0]
         ))->build();

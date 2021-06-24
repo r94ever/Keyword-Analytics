@@ -34,5 +34,10 @@
     "The url should only contain the keyword once or twice.": "url 应该只包含关键字一次或两次。",
     "The url contains the keyword once or twice.": "url 包含关键字一次或两次。",
     "Great. The content should contain more than :min words.": "伟大的。 内容应包含 :min 个以上的单词。",
-    "Great. The TITLE attribute in your A tags containing the keyword.": "伟大的。 包含关键字的 A 标签中的 TITLE 属性。"
+    "Great. The TITLE attribute in your A tags containing the keyword.": "伟大的。 包含关键字的 A 标签中的 TITLE 属性。",
+    "No image found in content. Please consider to add at least :min images to your content.": "在内容中找不到图像。 请考虑在您的内容中添加至少 :min 张图片。",
+    "Too few images. Please consider adding at least :remain images to your content to increase the relevance": "图片太少了。 请考虑在您的内容中添加至少 :remain 张图片以增加相关性",
+    "The keyword should appear in the ALT attribute of at least :min IMG tags": "关键字应出现在至少 :min 个 IMG 标签的 ALT 属性中",
+    "The keyword should appear in the TITLE attribute of at least :min links": "关键字应出现在至少 :min 个链接的 TITLE 属性中",
+    "The TITLE attribute in your link tags should contain the keyword.": "关键字应出现在链接的 TITLE 属性中。"
 }

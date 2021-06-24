@@ -34,5 +34,10 @@
     "The url should only contain the keyword once or twice.": "L'url ne doit contenir le mot-clé qu'une ou deux fois.",
     "The url contains the keyword once or twice.": "L'url contient le mot-clé une ou deux fois.",
     "Great. The content should contain more than :min words.": "Génial. Le contenu contient plus de :min mots.",
-    "Great. The TITLE attribute in your A tags containing the keyword.": "Génial. L'attribut TITLE dans vos balises A contenant le mot-clé."
+    "Great. The TITLE attribute in your A tags containing the keyword.": "Génial. L'attribut TITLE dans vos balises A contenant le mot-clé.",
+    "No image found in content. Please consider to add at least :min images to your content.": "Aucune image trouvée dans le contenu. Pensez à ajouter au moins :min images à votre contenu.",
+    "Too few images. Please consider adding at least :remain images to your content to increase the relevance": "Trop peu d'images. Veuillez envisager d'ajouter au moins :remain images à votre contenu pour augmenter la pertinence",
+    "The keyword should appear in the ALT attribute of at least :min IMG tags": "Le mot-clé doit apparaître dans l'attribut ALT d'au moins :min balises IMG",
+    "The keyword should appear in the TITLE attribute of at least :min links": "Le mot-clé doit apparaître dans l'attribut TITLE d'au moins :min liens.",
+    "The TITLE attribute in your link tags should contain the keyword.": "Le mot-clé doit apparaître dans l'attribut TITLE des liens."
 }

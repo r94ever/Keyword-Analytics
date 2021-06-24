@@ -71,7 +71,7 @@ class CheckKeywordInImgAlt extends CheckImageInContent
             CheckingMessage::WARNING_TYPE,
             CheckingMessage::HTML_FIELD,
             CheckingMessage::KEYWORD_TOO_LOW_MSG_ID,
-            __('Found keyword in the ALT attribute in IMG tags only :num times. Consider to add more', ['num' => $this->keywordCount]),
+            __('The keyword should appear in the ALT attribute of at least :min IMG tags', ['min' => $this->min]),
             CheckingMessage::KEYWORD_COUNT_VALIDATOR,
             ['min' => $this->min, 'keywordCount' => $this->keywordCount]
         ))->build();
@@ -80,7 +80,7 @@ class CheckKeywordInImgAlt extends CheckImageInContent
     protected function msgIfNotContain(): array
     {
         return (new CheckingMessage(
-            CheckingMessage::WARNING_TYPE,
+            CheckingMessage::ERROR_TYPE,
             CheckingMessage::HTML_FIELD,
             CheckingMessage::KEYWORD_NOT_FOUND_MSG_ID,
             __('The ALT attribute in your IMG tags should contain the keyword.'),
