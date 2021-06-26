@@ -21,6 +21,7 @@ use Qmas\KeywordAnalytics\Checkers\CheckKeywordInUrl;
 use Qmas\KeywordAnalytics\Checkers\CheckKeywordLength;
 use Qmas\KeywordAnalytics\Checkers\CheckLinkInContent;
 use Qmas\KeywordAnalytics\Checkers\CheckTitleLength;
+use Qmas\KeywordAnalytics\Exceptions\KeywordNotSetException;
 
 class Analysis
 {
@@ -72,6 +73,13 @@ class Analysis
      * Capture input data from request
      *
      * @return $this
+     * @throws \PHPHtmlParser\Exceptions\ChildNotFoundException
+     * @throws \PHPHtmlParser\Exceptions\CircularException
+     * @throws \PHPHtmlParser\Exceptions\ContentLengthException
+     * @throws \PHPHtmlParser\Exceptions\LogicalException
+     * @throws \PHPHtmlParser\Exceptions\StrictException
+     * @throws \Qmas\KeywordAnalytics\Exceptions\KeywordNotSetException
+     * @throws \PHPHtmlParser\Exceptions\NotLoadedException
      */
     public function fromRequest(): Analysis
     {
@@ -88,13 +96,26 @@ class Analysis
         return $this;
     }
 
+    /**
+     * @throws KeywordNotSetException
+     * @throws \PHPHtmlParser\Exceptions\ChildNotFoundException
+     * @throws \PHPHtmlParser\Exceptions\CircularException
+     * @throws \PHPHtmlParser\Exceptions\ContentLengthException
+     * @throws \PHPHtmlParser\Exceptions\LogicalException
+     * @throws \PHPHtmlParser\Exceptions\StrictException
+     * @throws \PHPHtmlParser\Exceptions\NotLoadedException
+     */
     public function prepareData(
-        string $keyword,
-        string $title,
-        string $description,
-        string $html,
-        string $url
+        string $keyword = null,
+        string $title = null,
+        string $description = null,
+        string $html = null,
+        string $url = null
     ) {
+        if (! $keyword) {
+            throw new KeywordNotSetException();
+        }
+
         $this->keyword      = Helper::unicodeToAscii($keyword);
         $this->title        = Helper::unicodeToAscii($title);
         $this->description  = Helper::unicodeToAscii($description);
@@ -125,12 +146,13 @@ class Analysis
      * Strip HTML & BODY tags
      * @param $html
      * @return string
+     * @noinspection HtmlRequiredLangAttribute
      */
     protected function stripUnnecessaryTags($html): string
     {
         // Remove <head> tag and its content
         $html = preg_replace(
-            '/<head(?:\s+[a-z]+(?:\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+)))*\s*>([\S\s]*)<\/head>/m',
+            '/<head(?:\s+[a-z]+\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+))*\s*>([\S\s]*)<\/head>/m',
             '',
             $html
         );
@@ -148,6 +170,10 @@ class Analysis
         return $search > 1 ? collect($matches[2]) : collect([]);
     }
 
+    /**
+     * @throws \PHPHtmlParser\Exceptions\ChildNotFoundException
+     * @throws \PHPHtmlParser\Exceptions\NotLoadedException
+     */
     protected function findDomNodes()
     {
         $this->images       = $this->dom->find('img');
@@ -155,6 +181,15 @@ class Analysis
         $this->links        = $this->dom->find('a');
     }
 
+    /**
+     * @throws \PHPHtmlParser\Exceptions\ChildNotFoundException
+     * @throws \Qmas\KeywordAnalytics\Exceptions\KeywordNotSetException
+     * @throws \PHPHtmlParser\Exceptions\ContentLengthException
+     * @throws \PHPHtmlParser\Exceptions\CircularException
+     * @throws \PHPHtmlParser\Exceptions\LogicalException
+     * @throws \PHPHtmlParser\Exceptions\StrictException
+     * @throws \PHPHtmlParser\Exceptions\NotLoadedException
+     */
     public function run(
         string $keyword = '',
         string $title = '',
