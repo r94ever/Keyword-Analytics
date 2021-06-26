@@ -10,7 +10,7 @@ class Helper
      * @param string $html
      * @return string
      */
-    public static function stripHtmlTags(string $html): string
+    public static function stripHtmlTags(string $html, bool $removeContent = false): string
     {
         return strip_tags($html);
 /*        return preg_replace('/<.*?>/', '', $html);*/
@@ -20,6 +20,7 @@ class Helper
      * Convert all unicode words to ASCII
      *
      * @param string $string
+     * @param bool $lowercase
      * @return string
      */
     public static function unicodeToAscii(string $string = null, bool $lowercase = true): string
@@ -41,8 +42,7 @@ class Helper
      */
     public static function countWords(string $string): int
     {
-//        return count(preg_split('~[^\p{L}\p{N}\']+~u', $string));
-        return str_word_count($string);
+        return count(preg_split('~[^\p{L}\p{N}\']+~u', $string));
     }
 
     /**
