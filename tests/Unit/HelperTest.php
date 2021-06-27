@@ -9,7 +9,7 @@ class HelperTest extends TestCase
 {
     public function test_strip_html_tags()
     {
-        $str = '<html><a class="test">te < st> </a></html>';
+        $str = '<body><a class="test">te < st> </a></body>';
 
         $str = Helper::stripHtmlTags($str);
 
@@ -66,4 +66,12 @@ class HelperTest extends TestCase
         $str = Helper::unicodeToAscii('俄语罗马化（俄語：Транслитерация русского алфавита латиницей、俄語拉丁化）是指把俄语从西里尔字母转写到拉丁字母这一过程。这种转写常用于把俄语人名和其他词语（比如Иван）转换为拉丁字母（Ivan）以便书写、印刷。俄语罗马化在没有俄语输入法或俄语输入困难的计算机使用者手上是非常重要的工具。尽管时至今天俄语的ЙЦУКЕН键盘早就普及了，但仅限于俄国境内。由于俄国国外的键盘基本都是QWERTY键盘，这使得不熟悉ЙЦУКЕН键盘布局的用户在输入西里尔字母的时候相当麻烦，因为键盘键帽上没有印刷西里尔字母供参考。配合一些软件，用户可以用他们熟悉的QWERTY键盘输入罗马化的俄语词汇，通过软件逆转换为西里尔字母。');
         $this->assertEquals('e yu luo ma hua e yutransliteracia russkogo alfavita latinicej e yu la ding hua shi zhi ba e yu cong xi li er zi mu zhuan xie dao la ding zi mu zhe yi guo chengzhe zhong zhuan xie chang yong yu ba e yu ren ming he qi ta ci yu bi ruivan zhuan huan wei la ding zi mu ivan yi bian shu xie yin shuae yu luo ma hua zai mei you e yu shu ru fa huo e yu shu ru kun nan de ji suan ji shi yong zhe shou shang shi fei chang zhong yao de gong jujin guan shi zhi jin tian e yu dejcuken jian pan zao jiu pu ji le dan jin xian yu e guo jing neiyou yu e guo guo wai de jian pan ji ben dou shiqwerty jian pan zhe shi de bu shu xijcuken jian pan bu ju de yong hu zai shu ru xi li er zi mu de shi hou xiang dang ma fan yin wei jian pan jian mao shang mei you yin shua xi li er zi mu gong can kaopei he yi xie ruan jian yong hu ke yi yong ta men shu xi deqwerty jian pan shu ru luo ma hua de e yu ci hui tong guo ruan jian ni zhuan huan wei xi li er zi mu', $str);
     }
+
+    public function test_remove_html_tags_and_content()
+    {
+        $str = "<P><em>test</em></P>";
+        $this->assertEquals('<P></P>', Helper::removeHtmlTagsAndContent($str, ['em']));
+    }
+
+
 }

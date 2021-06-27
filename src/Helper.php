@@ -10,10 +10,23 @@ class Helper
      * @param string $html
      * @return string
      */
-    public static function stripHtmlTags(string $html, bool $removeContent = false): string
+    public static function stripHtmlTags(string $html): string
     {
         return strip_tags($html);
 /*        return preg_replace('/<.*?>/', '', $html);*/
+    }
+
+    public static function removeHtmlTagsAndContent(string $html, array $tags)
+    {
+        foreach ($tags as $tag) {
+            $html = preg_replace(
+                '/<'.$tag.'(?:\s+[a-z]+\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+))*\s*>([\S\s]*)<\/'.$tag.'>/mi',
+                '',
+                $html
+            );
+        }
+
+        return $html;
     }
 
     /**
