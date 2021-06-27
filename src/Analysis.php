@@ -97,13 +97,18 @@ class Analysis
     }
 
     /**
-     * @throws KeywordNotSetException
+     * @param string|null $keyword
+     * @param string|null $title
+     * @param string|null $description
+     * @param string|null $html
+     * @param string|null $url
      * @throws \PHPHtmlParser\Exceptions\ChildNotFoundException
      * @throws \PHPHtmlParser\Exceptions\CircularException
      * @throws \PHPHtmlParser\Exceptions\ContentLengthException
      * @throws \PHPHtmlParser\Exceptions\LogicalException
-     * @throws \PHPHtmlParser\Exceptions\StrictException
      * @throws \PHPHtmlParser\Exceptions\NotLoadedException
+     * @throws \PHPHtmlParser\Exceptions\StrictException
+     * @throws \Qmas\KeywordAnalytics\Exceptions\KeywordNotSetException
      */
     public function prepareData(
         string $keyword = null,

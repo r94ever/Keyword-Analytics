@@ -55,7 +55,7 @@ class Helper
      */
     public static function countWords(string $string): int
     {
-        return count(preg_split('~[^\p{L}\p{N}\']+~u', $string));
+        return count(preg_split('/\W+/uim', $string, -1, PREG_SPLIT_NO_EMPTY));
     }
 
     /**
@@ -67,6 +67,7 @@ class Helper
      */
     public static function strContains(string $haystack, $needles): bool
     {
+        // Check if app is powered by Laravel Framework
         if (class_exists('\Str')) {
             return \Str::contains($haystack, $needles);
         }
@@ -78,6 +79,5 @@ class Helper
         }
 
         return false;
-
     }
 }

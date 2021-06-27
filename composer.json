@@ -17,8 +17,8 @@
     ],
     "require": {
         "php": "^7.0|^8.0",
-        "ext-json": "*",
         "ext-intl": "*",
+        "ext-json": "*",
         "illuminate/support": "^6.0|^7.0|^8.0",
         "paquettg/php-html-parser": "^3.1"
     },

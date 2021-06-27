@@ -73,5 +73,15 @@ class HelperTest extends TestCase
         $this->assertEquals('<P></P>', Helper::removeHtmlTagsAndContent($str, ['em']));
     }
 
+    public function test_count_words()
+    {
+        $str = 'Waves crashing on the shore';
+        $this->assertEquals(5, Helper::countWords(Helper::unicodeToAscii($str)));
 
+        $str = '岸に打ち寄せる波';
+        $this->assertEquals(4, Helper::countWords(Helper::unicodeToAscii($str)));
+
+        $str = 'Từng con sóng đang xô bờ';
+        $this->assertEquals(6, Helper::countWords(Helper::unicodeToAscii($str)));
+    }
 }
