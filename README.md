@@ -20,6 +20,18 @@ Analyze keywords in the content and make diagnostics to improve the seo score of
 - Check heading available in content.
 - Check keyword available in headings.
 
+#### Language Supported
+
+- English
+- Chinese
+- Spanish
+- French
+- Indonesian
+- Japanese
+- Portuguese
+- Russian
+- Vietnamese
+
 ## Requirements
 
 - PHP7.0+
