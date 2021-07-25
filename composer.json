@@ -1,17 +1,19 @@
 {
-    "name": "qmas/laravel-keyword-analytics",
+    "name": "r94ever/laravel-keyword-analytics",
     "description": "Analyze keywords in the content and make diagnostics to improve the seo score of the content.",
     "keywords": [
-        "qmas",
-        "laravel-keyword-analytics"
+        "r94ever",
+        "laravel-keyword-analytics",
+        "seo",
+        "laravel-seo"
     ],
-    "homepage": "https://github.com/qmas/laravel-keyword-analytics",
+    "homepage": "https://github.com/r94ever/Keyword-Analytics",
     "license": "MIT",
     "type": "library",
     "authors": [
         {
-            "name": "QMAS",
-            "email": "dev@qmas.vn",
+            "name": "Duong Thanh Van",
+            "email": "vandt147@outlook.com",
             "role": "Developer"
         }
     ],
