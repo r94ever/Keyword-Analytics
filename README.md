@@ -43,7 +43,7 @@ Analyze keywords in the content and make diagnostics to improve the seo score of
 You can install the package via composer:
 
 ```bash
-composer require qmas/laravel-keyword-analytics
+composer require r94ever/laravel-keyword-analytics
 ```
 
 #### For Laravel
