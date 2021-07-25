@@ -67,16 +67,24 @@ $app->register(QMAS\KeywordAnalytics\KeywordAnalyticsServiceProvider::class);
 use Qmas\KeywordAnalytics\Facade as Analytic;
 
 $results = Analytic::run($keyword, $title, $description, $html, $url)->getResults();
+
+// Or
 $results = app('keyword-analytics')->run($keyword, $title, $description, $html, $url)->getResults();
+
+dd($results);
 ```
 
-Or you can run instance from request
+Or you can run instance from request (read config file to understand about this method)
 
 ```php
 use Qmas\KeywordAnalytics\Facade as Analytic;
 
 $results = Analytic::fromRequest()->run()->getResults();
+
+// Or
 $results = app('keyword-analytics')->fromRequest()->run()->getResults();
+
+dd($results);
 ```
 
 #### For Lumen
@@ -85,6 +93,8 @@ $results = app('keyword-analytics')->fromRequest()->run()->getResults();
 use Qmas\KeywordAnalytics\Analysis;
 
 $results = app(Analysis::class)->run($keyword, $title, $description, $html, $url)->getResults();
+
+dd($results);
 ```
 
 Or you can run instance from request
@@ -93,6 +103,8 @@ Or you can run instance from request
 use Qmas\KeywordAnalytics\Analysis;
 
 $results = app(Analysis::class)->fromRequest()->run()->getResults();
+
+dd($results);
 ````
 
 ### Testing
@@ -111,12 +123,11 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### Security
 
-If you discover any security related issues, please email dev@qmas.vn instead of using the issue tracker.
+If you discover any security related issues, please email vandt147@outlook.com instead of using the issue tracker.
 
 ## Credits
 
--   [QMAS](https://github.com/QMAS-Projects)
--   [All Contributors](../../contributors)
+-   [r94ever](https://github.com/r94ever)
 
 ## License
 
