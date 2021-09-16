@@ -14,6 +14,7 @@
     "The keyword was found in the meta description :count times.": "Le mot-clé a été trouvé :count fois dans la méta description.",
     "The content should contain more than :min words to be recognized as relevant.": "Le texte doit contenir plus de :min mots pour être reconnu comme pertinent.",
     "Great. The content contains more than :min words.": "Génial. Le texte contient plus de :min mots.",
+    "The content should contain heading tags.": "Le contenu doit contenir des balises d'en-tête.",
     "The first paragraph of content does not contain the keyword.": "Le premier paragraphe du contenu ne contient pas le mot-clé.",
     "The first paragraph of content contains the keyword less than :min times.": "Le premier paragraphe du contenu contient le mot-clé moins de :min fois.",
     "The first paragraph of content contains the keyword more than :max times.": "Le premier paragraphe du contenu contient le mot-clé plus de :max fois.",

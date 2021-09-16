@@ -14,6 +14,7 @@
     "The keyword was found in the meta description :count times.": "Ключевое слово было найдено в метаописании :count раза.",
     "The content should contain more than :min words to be recognized as relevant.": "Текст должен содержать более :count слова, чтобы он был признан релевантным.",
     "Great. The content contains more than :min words.": "Отлично. Текст содержит более :min-х слов.",
+    "The content should contain heading tags.": "Контент должен содержать теги заголовков.",
     "The first paragraph of content does not contain the keyword.": "Первый абзац содержания не содержит ключевого слова.",
     "The first paragraph of content contains the keyword less than :min times.": "Первый абзац содержания содержит ключевое слово менее :min раз.",
     "The first paragraph of content contains the keyword more than :max times.": "Первый абзац содержания содержит ключевое слово более :max раз.",

@@ -14,6 +14,7 @@
     "The keyword was found in the meta description :count times.": "Kata kunci ditemukan dalam deskripsi meta 2 kali.",
     "The content should contain more than :min words to be recognized as relevant.": "Konten harus berisi lebih dari :min kata agar dianggap relevan.",
     "Great. The content contains more than :min words.": "Bagus. Konten berisi lebih dari :min kata.",
+    "The content should contain heading tags.": "Konten harus berisi tag heading.",
     "The first paragraph of content does not contain the keyword.": "Paragraf pertama konten tidak mengandung kata kunci.",
     "The first paragraph of content contains the keyword less than :min times.": "Paragraf pertama konten berisi kata kunci kurang dari :min kali.",
     "The first paragraph of content contains the keyword more than :max times.": "Paragraf pertama konten berisi kata kunci lebih dari :max kali.",

@@ -14,6 +14,7 @@
     "The keyword was found in the meta description :count times.": "キーワードがメタディスクリプションで:count回見つかりました。",
     "The content should contain more than :min words to be recognized as relevant.": "関連性があると認識されるためには、コンテンツに:minつ以上の単語が含まれている必要があります。",
     "Great. The content contains more than :min words.": "すごい。 コンテンツに:minつ以上の単語が含まれています。",
+    "The content should contain heading tags.": "コンテンツには見出しタグが含まれている必要があります。",
     "The first paragraph of content does not contain the keyword.": "コンテンツの最初の段落にキーワードが含まれていません。",
     "The first paragraph of content contains the keyword less than :min times.": "コンテンツの最初の段落に含まれるキーワードが:min回未満です。",
     "The first paragraph of content contains the keyword more than :max times.": "コンテンツの最初の段落にキーワードが:max回以上含まれています。",
