@@ -21,12 +21,11 @@
         "php": "^7.0|^8.0",
         "ext-intl": "*",
         "ext-json": "*",
-        "illuminate/support": "^6.0|^7.0|^8.0|^9.0",
+        "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0",
         "paquettg/php-html-parser": "^3.1"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.0",
-        "phpunit/phpunit": "^8.5.8|^9.0"
+        "phpunit/phpunit": "^8.5.8|^9.0|^10.1"
     },
     "autoload": {
         "psr-4": {
