@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-keyword-analytics` will be documented in this file
 
+## 2.0.2 - 2025-01-05
+
+- Fixing bugs
+
+## 2.0.1 - 2025-01-05
+
+- Fixing bugs
+
 ## 2.0.0 - 2025-01-05
 
 - Support Laravel 11 or above

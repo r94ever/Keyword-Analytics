@@ -2,6 +2,7 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Qmas\KeywordAnalytics\CheckingMessage;
 use Qmas\KeywordAnalytics\Enums\CheckResultType;
@@ -15,8 +16,7 @@ class CheckKeywordInLinkTitle extends Checker
 {
     private int $min;
 
-    /** @var Crawler[] */
-    protected array $links;
+    protected Collection $links;
 
     protected string $keyword;
 
