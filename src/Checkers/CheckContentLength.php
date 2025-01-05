@@ -2,26 +2,34 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
-use Qmas\KeywordAnalytics\Abstracts\Checker;
 use Qmas\KeywordAnalytics\CheckingMessage;
+use Qmas\KeywordAnalytics\Enums\CheckResultType;
+use Qmas\KeywordAnalytics\Enums\Field;
+use Qmas\KeywordAnalytics\Enums\MessageId;
+use Qmas\KeywordAnalytics\Enums\Validator;
 use Qmas\KeywordAnalytics\Helper;
 
 class CheckContentLength extends Checker
 {
-    private $min;
+    private int $min;
 
-    protected $contentWithoutHtml;
+    protected string $contentWithoutHtml;
 
-    protected $htmlWordsCount = 0;
+    protected int $htmlWordsCount = 0;
+
+    protected CheckingMessage $message;
 
     public function __construct($contentWithoutHtml)
     {
         parent::__construct();
 
-        $this->min = config('keyword-analytics.variables.content_length.min');
-
+        $this->min = (int) config('keyword-analytics.variables.content_length.min');
         $this->contentWithoutHtml = $contentWithoutHtml;
         $this->htmlWordsCount = Helper::countWords($this->contentWithoutHtml);
+
+        $this->message = CheckingMessage::make()
+            ->setValidatorName(Validator::WORD_COUNT)
+            ->setField(Field::HTML);
     }
 
     public function check(): Checker
@@ -41,37 +49,32 @@ class CheckContentLength extends Checker
 
     protected function msgIfEmpty(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::IGNORED_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::IGNORE_MSG_ID,
-            '',
-            CheckingMessage::WORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "wordCount" => $this->htmlWordsCount, ]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::IGNORED)
+            ->setMsgId(MessageId::IGNORE)
+            ->setData(["min" => $this->min, "wordCount" => $this->htmlWordsCount])
+            ->build();
     }
 
     protected function msgIfTooShort(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::WARNING_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::TOO_SHORT_MSG_ID,
-            __('The content should contain more than :min words to be recognized as relevant.', ['min' => $this->min]),
-            CheckingMessage::WORD_COUNT_VALIDATOR,
-            ["wordCount" => $this->htmlWordsCount, "min" => $this->min,]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::WARNING)
+            ->setMsgId(MessageId::TOO_SHORT)
+            ->setData(["min" => $this->min, "wordCount" => $this->htmlWordsCount])
+            ->setMsg(__('The content should contain more than :min words to be recognized as relevant.', [
+                'min' => $this->min
+            ]))
+            ->build();
     }
 
     protected function msgIfOk(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::SUCCESS_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::SUCCESS_MSG_ID,
-            __('Great. The content contains more than :min words.', ['min' => $this->min]),
-            CheckingMessage::LENGTH_VALIDATOR,
-            ["wordCount" => $this->htmlWordsCount, "min" => $this->min]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::SUCCESS)
+            ->setMsgId(MessageId::SUCCESS)
+            ->setMsg(__('Great. The content contains more than :min words.', ['min' => $this->min]))
+            ->setData(["min" => $this->min, "wordCount" => $this->htmlWordsCount])
+            ->build();
     }
 }

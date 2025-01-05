@@ -7,9 +7,9 @@ use Illuminate\Support\Collection;
 class CheckingResult
 {
     /** @var Collection $result */
-    public static $result;
+    public static Collection $result;
 
-    public function add(array $data)
+    public function add(array $data): void
     {
         if (! self::$result instanceof Collection) {
             self::$result = collect();

@@ -1,31 +1,38 @@
 <?php
 
-
 namespace Qmas\KeywordAnalytics\Checkers;
 
-
-use Qmas\KeywordAnalytics\Abstracts\Checker;
 use Qmas\KeywordAnalytics\CheckingMessage;
+use Qmas\KeywordAnalytics\Enums\CheckResultType;
+use Qmas\KeywordAnalytics\Enums\Field;
+use Qmas\KeywordAnalytics\Enums\MessageId;
+use Qmas\KeywordAnalytics\Enums\Validator;
 
 class CheckDescriptionLength extends Checker
 {
-    private $min;
+    private int $min;
 
-    private $max;
+    private int $max;
 
-    protected $description;
+    protected string $description;
 
-    protected $descriptionCharactersCount = 0;
+    protected int $descriptionCharactersCount = 0;
+
+    protected CheckingMessage $message;
 
     public function __construct($description)
     {
         parent::__construct();
 
-        $this->min = config('keyword-analytics.variables.description_length.min');
-        $this->max = config('keyword-analytics.variables.description_length.max');
+        $this->min = (int) config('keyword-analytics.variables.description_length.min');
+        $this->max = (int) config('keyword-analytics.variables.description_length.max');
 
         $this->description = $description;
         $this->descriptionCharactersCount = mb_strlen($this->description);
+
+        $this->message = CheckingMessage::make()
+            ->setValidatorName(Validator::LENGTH)
+            ->setField(Field::DESCRIPTION);
     }
 
     public function check(): Checker
@@ -46,77 +53,52 @@ class CheckDescriptionLength extends Checker
         return $this;
     }
 
-    protected function msgIfEmpty()
+    protected function msgIfEmpty(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::IGNORED_TYPE,
-            CheckingMessage::DESCRIPTION_FIELD,
-            CheckingMessage::IGNORE_MSG_ID,
-            __('Please consider to add some content to meta description tag.'),
-            CheckingMessage::LENGTH_VALIDATOR,
-            [
-                "length" => 0,
-                "min" => $this->min,
-                "max" => $this->max
-            ]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::IGNORED)
+            ->setMsgId(MessageId::IGNORE)
+            ->setMsg(__('Please consider to add some content to meta description tag.'))
+            ->setData(["length" => 0, "min" => $this->min, "max" => $this->max])
+            ->build();
     }
 
-    protected function msgIfTooShort()
+    protected function msgIfTooShort(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::WARNING_TYPE,
-            CheckingMessage::DESCRIPTION_FIELD,
-            CheckingMessage::TOO_SHORT_MSG_ID,
-            __('The meta description should be more than :min and less than :max chars.', [
+        return $this->message
+            ->setType(CheckResultType::WARNING)
+            ->setMsgId(MessageId::TOO_SHORT)
+            ->setMsg(__('The meta description should be more than :min and less than :max chars.', [
                 'min' => $this->min,
                 'max' => $this->max
-            ]),
-            CheckingMessage::LENGTH_VALIDATOR,
-            [
-                "length" => $this->descriptionCharactersCount,
-                "min" => $this->min,
-                "max" => $this->max
-            ]
-        ))->build();
+            ]))
+            ->setData(["length" => $this->descriptionCharactersCount, "min" => $this->min, "max" => $this->max])
+            ->build();
     }
 
-    protected function msgIfTooLong()
+    protected function msgIfTooLong(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::WARNING_TYPE,
-            CheckingMessage::DESCRIPTION_FIELD,
-            CheckingMessage::TOO_LONG_MSG_ID,
-            __('The meta description should be more than :min and less than :max chars.', [
+        return $this->message
+            ->setType(CheckResultType::WARNING)
+            ->setMsgId(MessageId::TOO_LONG)
+            ->setMsg(__('The meta description should be more than :min and less than :max chars.', [
                 'min' => $this->min,
                 'max' => $this->max
-            ]),
-            CheckingMessage::LENGTH_VALIDATOR,
-            [
-                "length" => $this->descriptionCharactersCount,
-                "min" => $this->min,
-                "max" => $this->max
-            ]
-        ))->build();
+            ]))
+            ->setData(["length" => $this->descriptionCharactersCount, "min" => $this->min, "max" => $this->max])
+            ->build();
     }
 
-    protected function msgIfOk()
+    protected function msgIfOk(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::SUCCESS_TYPE,
-            CheckingMessage::DESCRIPTION_FIELD,
-            CheckingMessage::SUCCESS_MSG_ID,
-            __('The meta description should be more than :min and less than :max chars.', [
+        return $this->message
+            ->setType(CheckResultType::SUCCESS)
+            ->setMsgId(MessageId::SUCCESS)
+            ->setMsg(__('The meta description should be more than :min and less than :max chars.', [
                 'min' => $this->min,
                 'max' => $this->max
-            ]),
-            CheckingMessage::LENGTH_VALIDATOR,
-            [
-                "length" => $this->descriptionCharactersCount,
-                "min" => $this->min,
-                "max" => $this->max
-            ]
-        ))->build();
+            ]))
+            ->setData(["length" => $this->descriptionCharactersCount, "min" => $this->min, "max" => $this->max])
+            ->build();
     }
-
 }

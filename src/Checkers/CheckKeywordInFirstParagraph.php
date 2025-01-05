@@ -2,34 +2,43 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
-use Qmas\KeywordAnalytics\Abstracts\Checker;
 use Qmas\KeywordAnalytics\CheckingMessage;
+use Qmas\KeywordAnalytics\Enums\CheckResultType;
+use Qmas\KeywordAnalytics\Enums\Field;
+use Qmas\KeywordAnalytics\Enums\MessageId;
+use Qmas\KeywordAnalytics\Enums\Validator;
 use Qmas\KeywordAnalytics\Helper;
 
 class CheckKeywordInFirstParagraph extends Checker
 {
-    private $min;
+    private int $min;
     
-    private $max;
+    private int $max;
 
-    protected $keyword;
+    protected string $keyword;
 
-    protected $html;
+    protected string $html;
 
-    protected $firstPara;
+    protected string $firstPara;
 
-    protected $keywordCount;
+    protected int $keywordCount;
+
+    protected CheckingMessage $message;
 
     public function __construct($keyword, $html)
     {
         parent::__construct();
 
-        $this->min = config('keyword-analytics.variables.keyword_in_first_paragraph.min');
-        $this->max = config('keyword-analytics.variables.keyword_in_first_paragraph.max');
+        $this->min = (int) config('keyword-analytics.variables.keyword_in_first_paragraph.min');
+        $this->max = (int) config('keyword-analytics.variables.keyword_in_first_paragraph.max');
 
         $this->keyword = $keyword;
         $this->html = $html;
         $this->firstPara = $this->getFirstParagraph();
+
+        $this->message = CheckingMessage::make()
+            ->setValidatorName(Validator::KEYWORD_COUNT)
+            ->setField(Field::HTML);
     }
 
     protected function getFirstParagraph(): string
@@ -67,61 +76,54 @@ class CheckKeywordInFirstParagraph extends Checker
 
     protected function msgIfFirstParaIsEmpty(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::IGNORED_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::IGNORE_MSG_ID,
-            '',
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::IGNORED)
+            ->setMsgId(MessageId::IGNORE)
+            ->setData(["min" => $this->min, "max" => $this->max])
+            ->build();
     }
 
     protected function msgIfKeywordNotFound(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::WARNING_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::KEYWORD_NOT_FOUND_MSG_ID,
-            __('The first paragraph of content does not contain the keyword.'),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max, "keywordCount" => 0,]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::ERROR)
+            ->setMsgId(MessageId::KEYWORD_NOT_FOUND)
+            ->setMsg(__('The first paragraph of content does not contain the keyword.'))
+            ->setData(["min" => $this->min, "max" => $this->max, "keywordCount" => 0])
+            ->build();
     }
 
     protected function msgIfKeywordTooLow(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::ERROR_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::KEYWORD_TOO_LOW_MSG_ID,
-            __('The first paragraph of content contains the keyword less than :min times.', ['min' => $this->min]),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount,]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::WARNING)
+            ->setMsgId(MessageId::KEYWORD_TOO_LOW)
+            ->setMsg(__('The first paragraph of content contains the keyword less than :min times.', [
+                'min' => $this->min
+            ]))
+            ->setData(["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount])
+            ->build();
     }
 
     protected function msgIfKeywordTooOften(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::WARNING_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::KEYWORD_TOO_OFTEN_MSG_ID,
-            __('The first paragraph of content contains the keyword more than :max times.', ['max' => $this->max]),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount,]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::WARNING)
+            ->setMsgId(MessageId::KEYWORD_TOO_OFTEN)
+            ->setMsg(__('The first paragraph of content contains the keyword more than :max times.', [
+                'max' => $this->max
+            ]))
+            ->setData(["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount])
+            ->build();
     }
 
     protected function msgIfEnough(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::SUCCESS_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::SUCCESS_MSG_ID,
-            __('The first paragraph of content should contain the keyword.'),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount,]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::SUCCESS)
+            ->setMsgId(MessageId::SUCCESS)
+            ->setMsg(__('The first paragraph of content should contain the keyword.'))
+            ->setData(["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount])
+            ->build();
     }
 }

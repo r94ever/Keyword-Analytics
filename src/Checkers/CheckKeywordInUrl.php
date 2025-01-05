@@ -2,43 +2,51 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
-use Qmas\KeywordAnalytics\Abstracts\Checker;
 use Qmas\KeywordAnalytics\CheckingMessage;
+use Qmas\KeywordAnalytics\Enums\CheckResultType;
+use Qmas\KeywordAnalytics\Enums\Field;
+use Qmas\KeywordAnalytics\Enums\MessageId;
+use Qmas\KeywordAnalytics\Enums\Validator;
 use Qmas\KeywordAnalytics\Helper;
 
 class CheckKeywordInUrl extends Checker
 {
-    private $min;
+    private int $min;
     
-    private $max;
+    private int $max;
 
-    protected $url;
+    protected string $url;
 
-    protected $keyword;
+    protected string $keyword;
 
-    protected $keywordCount;
+    protected int $keywordCount;
+
+    protected CheckingMessage $message;
 
     public function __construct($url, $keyword)
     {
         parent::__construct();
 
-        $this->min = config('keyword-analytics.variables.keyword_in_url.min');
-        $this->max = config('keyword-analytics.variables.keyword_in_url.max');
+        $this->min = (int) config('keyword-analytics.variables.keyword_in_url.min');
+        $this->max = (int) config('keyword-analytics.variables.keyword_in_url.max');
 
         $this->url = Helper::unicodeToAscii($url);
         $this->keyword = Helper::unicodeToAscii($keyword);
-
         $this->keywordCount = $this->findKeywordInUrl();
+
+        $this->message = CheckingMessage::make()
+            ->setValidatorName(Validator::KEYWORD_COUNT)
+            ->setField(Field::URL);
     }
 
-    protected function findKeywordInUrl()
+    protected function findKeywordInUrl(): false|int
     {
         $string = $this->extractAlphaNumOnlyFromUrl();
 
         return preg_match_all("/$this->keyword/i", $string);
     }
 
-    protected function extractAlphaNumOnlyFromUrl()
+    protected function extractAlphaNumOnlyFromUrl(): array|string|null
     {
         return preg_replace('/[^a-zA-Z0-9]/', ' ', $this->url);
     }
@@ -66,61 +74,50 @@ class CheckKeywordInUrl extends Checker
 
     protected function msgIfUrlUnavailable(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::IGNORED_TYPE,
-            CheckingMessage::URL_FIELD,
-            CheckingMessage::IGNORE_MSG_ID,
-            '',
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max,]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::IGNORED)
+            ->setMsgId(MessageId::IGNORE)
+            ->setData(["min" => $this->min, "max" => $this->max])
+            ->build();
     }
 
     protected function msgIfNotFound(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::ERROR_TYPE,
-            CheckingMessage::URL_FIELD,
-            CheckingMessage::KEYWORD_NOT_FOUND_MSG_ID,
-            __('The url does not contain the keyword.'),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::ERROR)
+            ->setMsgId(MessageId::KEYWORD_NOT_FOUND)
+            ->setMsg(__('The url does not contain the keyword.'))
+            ->setData(["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount])
+            ->build();
     }
 
     protected function msgIfTooLow(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::ERROR_TYPE,
-            CheckingMessage::URL_FIELD,
-            CheckingMessage::KEYWORD_TOO_LOW_MSG_ID,
-            __('The keyword should appear in the URL at least :min times.', ['min' => $this->min]),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::ERROR)
+            ->setMsgId(MessageId::KEYWORD_TOO_LOW)
+            ->setMsg(__('The keyword should appear in the URL at least :min times.', ['min' => $this->min]))
+            ->setData(["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount])
+            ->build();
     }
 
     protected function msgIfTooOften(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::ERROR_TYPE,
-            CheckingMessage::URL_FIELD,
-            CheckingMessage::KEYWORD_TOO_OFTEN_MSG_ID,
-            __('Keywords should not appear in the URL more than :max times.', ['max' => $this->max]),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::ERROR)
+            ->setMsgId(MessageId::KEYWORD_TOO_OFTEN)
+            ->setMsg(__('Keywords should not appear in the URL more than :max times.', ['max' => $this->max]))
+            ->setData(["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount])
+            ->build();
     }
 
     protected function msgIfOk(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::SUCCESS_TYPE,
-            CheckingMessage::URL_FIELD,
-            CheckingMessage::SUCCESS_MSG_ID,
-            __('Keywords appear in the URL at a reasonable density.'),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::SUCCESS)
+            ->setMsgId(MessageId::SUCCESS)
+            ->setMsg(__('Keywords appear in the URL at a reasonable density.'))
+            ->setData(["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount])
+            ->build();
     }
 }

@@ -2,18 +2,23 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
-use Qmas\KeywordAnalytics\Abstracts\Checker;
 use Qmas\KeywordAnalytics\CheckingMessage;
+use Qmas\KeywordAnalytics\Enums\CheckResultType;
+use Qmas\KeywordAnalytics\Enums\Field;
+use Qmas\KeywordAnalytics\Enums\MessageId;
+use Qmas\KeywordAnalytics\Enums\Validator;
 
 class CheckKeywordInTitle extends CheckTitleLength
 {
-    private $min;
+    private int $min;
 
-    private $max;
+    private int $max;
 
-    protected $keyword;
+    protected string $keyword;
 
-    protected $keywordCount = 0;
+    protected int $keywordCount = 0;
+
+    protected CheckingMessage $message;
 
     public function __construct($keyword, $description)
     {
@@ -23,6 +28,10 @@ class CheckKeywordInTitle extends CheckTitleLength
         $this->max = config('keyword-analytics.variables.keyword_in_title.max');
 
         $this->keyword = $keyword;
+
+        $this->message = CheckingMessage::make()
+            ->setValidatorName(Validator::KEYWORD_COUNT)
+            ->setField(Field::TITLE);
     }
 
     public function check(): Checker
@@ -52,61 +61,51 @@ class CheckKeywordInTitle extends CheckTitleLength
 
     protected function msgIfTitleEmpty(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::IGNORED_TYPE,
-            CheckingMessage::TITLE_FIELD,
-            CheckingMessage::IGNORE_MSG_ID,
-            __('The page title is empty.'),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::IGNORED)
+            ->setMsgId(MessageId::IGNORE)
+            ->setMsg(__('The page title is empty.'))
+            ->setData(["min" => $this->min, "max" => $this->max])
+            ->build();
     }
 
     protected function msgIfKeywordNotFound(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::ERROR_TYPE,
-            CheckingMessage::TITLE_FIELD,
-            CheckingMessage::KEYWORD_NOT_FOUND_MSG_ID,
-            __('The page title does not contain the keyword.'),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max, "keywordCount" => 0]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::ERROR)
+            ->setMsgId(MessageId::KEYWORD_NOT_FOUND)
+            ->setMsg(__('The page title does not contain the keyword.'))
+            ->setData(["min" => $this->min, "max" => $this->max, "keywordCount" => 0])
+            ->build();
     }
 
     protected function msgIfKeywordTooLow(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::ERROR_TYPE,
-            CheckingMessage::TITLE_FIELD,
-            CheckingMessage::KEYWORD_TOO_LOW_MSG_ID,
-            __('The keyword should appear in the title at least :min times.', ['min' => $this->min]),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::WARNING)
+            ->setMsgId(MessageId::KEYWORD_TOO_LOW)
+            ->setMsg(__('The keyword should appear in the title at least :min times.', ['min' => $this->min]))
+            ->setData(["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount])
+            ->build();
     }
 
     protected function msgIfKeywordTooOften(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::ERROR_TYPE,
-            CheckingMessage::TITLE_FIELD,
-            CheckingMessage::KEYWORD_TOO_OFTEN_MSG_ID,
-            __('Keywords should not appear in the title more than :max times.', ['max' => $this->max]),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::ERROR)
+            ->setMsgId(MessageId::KEYWORD_TOO_OFTEN)
+            ->setMsg(__('Keywords should not appear in the title more than :max times.', ['max' => $this->max]))
+            ->setData(["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount])
+            ->build();
     }
 
     protected function msgIfEnough(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::SUCCESS_TYPE,
-            CheckingMessage::TITLE_FIELD,
-            CheckingMessage::SUCCESS_MSG_ID,
-            __('Great! The title contains keywords with a reasonable density.'),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::SUCCESS)
+            ->setMsgId(MessageId::SUCCESS)
+            ->setMsg(__('Great! The title contains keywords with a reasonable density.'))
+            ->setData(["min" => $this->min, "max" => $this->max, "keywordCount" => $this->keywordCount])
+            ->build();
     }
 }

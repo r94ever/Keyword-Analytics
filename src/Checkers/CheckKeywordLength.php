@@ -2,17 +2,22 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
-use Qmas\KeywordAnalytics\Abstracts\Checker;
 use Qmas\KeywordAnalytics\CheckingMessage;
+use Qmas\KeywordAnalytics\Enums\CheckResultType;
+use Qmas\KeywordAnalytics\Enums\Field;
+use Qmas\KeywordAnalytics\Enums\MessageId;
+use Qmas\KeywordAnalytics\Enums\Validator;
 use Qmas\KeywordAnalytics\Helper;
 
 class CheckKeywordLength extends Checker
 {
-    private $min;
+    private int $min;
 
-    private $max;
+    private int $max;
 
-    protected $keywordWordsCount = 0;
+    protected int $keywordWordsCount = 0;
+
+    protected CheckingMessage $message;
 
     /**
      * CheckKeywordLength constructor.
@@ -22,11 +27,15 @@ class CheckKeywordLength extends Checker
     {
         parent::__construct();
         
-        $this->min = config('keyword-analytics.variables.keyword_length.min');
-        $this->max = config('keyword-analytics.variables.keyword_length.max');
+        $this->min = (int) config('keyword-analytics.variables.keyword_length.min');
+        $this->max = (int) config('keyword-analytics.variables.keyword_length.max');
 
         $this->keywordWordsCount = Helper::countWords($keyword);
         $this->result = collect();
+
+        $this->message = CheckingMessage::make()
+            ->setValidatorName(Validator::LENGTH)
+            ->setField(Field::KEYWORD);
     }
 
     /**
@@ -49,58 +58,40 @@ class CheckKeywordLength extends Checker
 
     protected function msgIfOk(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::SUCCESS_TYPE,
-            CheckingMessage::KEYWORD_FIELD,
-            CheckingMessage::SUCCESS_MSG_ID,
-            __("The keyword / keyphrase should be more than :min and less than :max words.", [
+        return $this->message
+            ->setType(CheckResultType::SUCCESS)
+            ->setMsgId(MessageId::SUCCESS)
+            ->setMsg(__("The keyword / keyphrase should be more than :min and less than :max words.", [
                 'min' => $this->min,
                 'max' => $this->max
-            ]),
-            CheckingMessage::LENGTH_VALIDATOR,
-            [
-                "wordCount" => $this->keywordWordsCount,
-                "min" => $this->min,
-                "max" => $this->max
-            ]
-        ))->build();
+            ]))
+            ->setData(["wordCount" => $this->keywordWordsCount, "min" => $this->min, "max" => $this->max])
+            ->build();
     }
 
     protected function msgIfTooShort(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::ERROR_TYPE,
-            CheckingMessage::KEYWORD_FIELD,
-            CheckingMessage::TOO_SHORT_MSG_ID,
-            __("The keyword / keyphrase should be more than :min and less than :max words.", [
+        return $this->message
+            ->setType(CheckResultType::ERROR)
+            ->setMsgId(MessageId::TOO_SHORT)
+            ->setMsg(__("The keyword / keyphrase should be more than :min and less than :max words.", [
                 'min' => $this->min,
                 'max' => $this->max
-            ]),
-            CheckingMessage::LENGTH_VALIDATOR,
-            [
-                "wordCount" => $this->keywordWordsCount,
-                "min" => $this->min,
-                "max" => $this->max
-            ]
-        ))->build();
+            ]))
+            ->setData(["wordCount" => $this->keywordWordsCount, "min" => $this->min, "max" => $this->max])
+            ->build();
     }
 
     protected function msgIfTooLong(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::ERROR_TYPE,
-            CheckingMessage::KEYWORD_FIELD,
-            CheckingMessage::TOO_LONG_MSG_ID,
-            __("The keyword / keyphrase should be more than :min and less than :max words.", [
+        return $this->message
+            ->setType(CheckResultType::ERROR)
+            ->setMsgId(MessageId::TOO_LONG)
+            ->setMsg(__("The keyword / keyphrase should be more than :min and less than :max words.", [
                 'min' => $this->min,
                 'max' => $this->max
-            ]),
-            CheckingMessage::LENGTH_VALIDATOR,
-            [
-                "wordCount" => $this->keywordWordsCount,
-                "min" => $this->min,
-                "max" => $this->max
-            ]
-        ))->build();
+            ]))
+            ->setData(["wordCount" => $this->keywordWordsCount, "min" => $this->min, "max" => $this->max])
+            ->build();
     }
 }

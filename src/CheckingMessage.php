@@ -2,137 +2,116 @@
 
 namespace Qmas\KeywordAnalytics;
 
+use Qmas\KeywordAnalytics\Enums\CheckResultType;
+use Qmas\KeywordAnalytics\Enums\Field;
+use Qmas\KeywordAnalytics\Enums\MessageId;
+use Qmas\KeywordAnalytics\Enums\Validator;
+
 class CheckingMessage
 {
-    protected $type;
+    protected ?CheckResultType $type;
 
-    protected $field;
+    protected ?Field $field;
 
-    protected $msgId;
+    protected ?MessageId $msgId;
 
-    protected $msg;
+    protected ?Validator $validatorName;
 
-    protected $validatorName;
+    protected ?string $msg = '';
 
-    protected $data;
-
-    const ERROR_TYPE = 'error';
-
-    const SUCCESS_TYPE = 'success';
-
-    const WARNING_TYPE = 'warning';
-
-    const IGNORED_TYPE = 'ignored';
-
-    const KEYWORD_FIELD = 'keyword';
-
-    const TITLE_FIELD = 'headline';
-
-    const DESCRIPTION_FIELD = 'metaDescription';
-
-    const HTML_FIELD = 'html';
-
-    const URL_FIELD = 'url';
-
-    const SUCCESS_MSG_ID = 'success';
-
-    const TOO_LONG_MSG_ID = 'tooLong';
-
-    const TOO_SHORT_MSG_ID = 'tooShort';
-
-    const IGNORE_MSG_ID = 'ignore';
-
-    const KEYWORD_NOT_FOUND_MSG_ID = 'keywordNotFound';
-
-    const KEYWORD_TOO_LOW_MSG_ID = 'keywordTooLow';
-
-    const KEYWORD_TOO_OFTEN_MSG_ID = 'keywordToOften';
-
-    const KEYWORD_DENSITY_TOO_HIGH_MSG_ID = 'densityTooHigh';
-
-    const KEYWORD_DENSITY_TOO_LOW_MSG_ID = 'densityTooLow';
-
-    const NO_IMAGE_MSG_ID = 'noImagesFound';
-
-    const TOO_FEW_IMAGES_MSG_ID = 'tooFewImage';
-
-    const NO_LINKS_FOUND_MSG_ID = 'outboundLinks';
-
-    const LENGTH_VALIDATOR = 'length';
-
-    const KEYWORD_COUNT_VALIDATOR = 'keywordCount';
-
-    const KEYWORD_DENSITY_VALIDATOR = 'keywordDensity';
-
-    const WORD_COUNT_VALIDATOR = 'wordCount';
-
-    const HEADING_VALIDATOR = 'heading';
-
-    const IMAGE_COUNT_VALIDATOR = 'imageCount';
-
-    const OUTBOUND_LINKS_VALIDATOR = 'outboundLinks';
+    protected ?array $data = [];
 
     /**
      * CheckingMessage constructor.
      *
-     * @param null $type
-     * @param null $field
-     * @param null $msgId
-     * @param null $msg
-     * @param null $validatorName
-     * @param array $data
+     * @param CheckResultType|null $type
+     * @param MessageId|null $msgId
+     * @param Validator|null $validatorName
+     * @param Field|null $field
+     * @param string|null $msg
+     * @param array|null $data
      */
-    public function __construct($type = null, $field = null, $msgId = null, $msg = null, $validatorName = null, $data = [])
-    {
-        $this->type             = $type;
-        $this->field            = $field;
-        $this->msgId            = $msgId;
-        $this->msg              = $msg;
-        $this->validatorName    = $validatorName;
-        $this->data             = $data;
+    public function __construct(
+        ?CheckResultType $type = null,
+        ?MessageId $msgId = null,
+        ?Validator $validatorName = null,
+        ?Field $field = null,
+        ?string $msg = '',
+        ?array $data = []
+    ) {
+        $this->setType($type);
+        $this->setField($field);
+        $this->setMsgId($msgId);
+        $this->setMsg($msg);
+        $this->setValidatorName($validatorName);
+        $this->setData($data);
 
         return $this;
     }
 
-    public function build()
+    public static function make(
+        ?CheckResultType $type = null,
+        ?MessageId $msgId = null,
+        ?Validator $validatorName = null,
+        ?Field $field = null,
+        ?string $msg = null,
+        ?array $data = []
+    ): self
+    {
+        return new self(type: $type, msgId: $msgId, validatorName: $validatorName, field: $field, msg: $msg, data: $data);
+    }
+
+    public function build(): array
     {
         return [
-            "type"          => $this->type,
-            "field"         => $this->field,
-            "msgId"         => $this->msgId,
+            "type"          => $this->type->value,
+            "field"         => $this->field->value,
+            "msgId"         => $this->msgId->value,
             "msg"           => $this->msg,
-            "validatorName" => $this->validatorName,
+            "validatorName" => $this->validatorName->value,
             "data"          => $this->data
         ];
     }
 
-    public function setType(string $type)
+    public function setType(?CheckResultType $type): self
     {
         $this->type = $type;
+
+        return $this;
     }
 
-    public function setField(string $field)
+    public function setField(?Field $field): self
     {
         $this->field = $field;
+
+        return $this;
     }
 
-    public function setMsgId(string $msgId)
+    public function setMsgId(?MessageId $msgId): self
     {
         $this->msgId = $msgId;
+
+        return $this;
     }
 
-    public function setMsg(string $msg)
+    public function setMsg(?string $msg = ''): self
     {
         $this->msg = $msg;
+
+        return $this;
     }
 
-    public function setValidatorName(string $validatorName)
+    public function setValidatorName(?Validator $validatorName): self
     {
         $this->validatorName = $validatorName;
+
+        return $this;
     }
 
-    public function setData(array $data)
+    public function setData(?array $data = []): self
     {
         $this->data = $data;
+
+        return $this;
     }
 }

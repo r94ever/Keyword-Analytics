@@ -2,28 +2,38 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
-use PHPHtmlParser\Dom\Node\Collection;
-use Qmas\KeywordAnalytics\Abstracts\Checker;
+use Illuminate\Support\Collection;
 use Qmas\KeywordAnalytics\CheckingMessage;
+use Qmas\KeywordAnalytics\Enums\CheckResultType;
+use Qmas\KeywordAnalytics\Enums\Field;
+use Qmas\KeywordAnalytics\Enums\MessageId;
+use Qmas\KeywordAnalytics\Enums\Validator;
 
 class CheckImageInContent extends Checker
 {
-    private $min;
+    private int $min;
 
     /** @var Collection $images */
-    protected $images;
+    protected Collection $images;
 
     /** @var int $imagesCount */
-    protected $imagesCount;
+    protected int $imagesCount;
+
+    /** @var CheckingMessage $message */
+    protected CheckingMessage $message;
 
     public function __construct($images)
     {
         parent::__construct();
 
-        $this->min = config('keyword-analytics.variables.image_in_content.min');
+        $this->min = (int) config('keyword-analytics.variables.image_in_content.min');
 
         $this->images = $images;
         $this->imagesCount = $this->images->count();
+
+        $this->message = CheckingMessage::make()
+            ->setValidatorName(Validator::IMAGE_COUNT)
+            ->setField(Field::HTML);
     }
 
     public function check(): Checker
@@ -43,39 +53,35 @@ class CheckImageInContent extends Checker
 
     protected function msgIfContainImage(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::SUCCESS_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::SUCCESS_MSG_ID,
-            __('Great. We found :count images. This will increase your relevance.', ['count' => $this->images->count()]),
-            CheckingMessage::IMAGE_COUNT_VALIDATOR,
-            ['min' => $this->min, 'imageCount' => $this->imagesCount]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::SUCCESS)
+            ->setMsgId(MessageId::SUCCESS)
+            ->setMsg(__('Great. We found :count images. This will increase your relevance.', [
+                'count' => $this->images->count()
+            ]))
+            ->setData(['min' => $this->min, 'imageCount' => $this->imagesCount])
+            ->build();
     }
 
     protected function msgIfNotEnough(): array
     {
-        $remain = $this->min - $this->imagesCount;
-
-        return (new CheckingMessage(
-            CheckingMessage::WARNING_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::SUCCESS_MSG_ID,
-            __('Too few images. Please consider adding at least :remain images to your content to increase the relevance.'),
-            CheckingMessage::TOO_FEW_IMAGES_MSG_ID,
-            ['min' => $this->min, 'imageCount' => $this->imagesCount]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::WARNING)
+            ->setMsgId(MessageId::SUCCESS)
+            ->setMsg(__('Too few images. Please consider adding at least :remain images to your content to increase the relevance.'))
+            ->setData(['min' => $this->min, 'imageCount' => $this->imagesCount])
+            ->build();
     }
 
     protected function msgIfNoImage(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::WARNING_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::NO_IMAGE_MSG_ID,
-            __('No image found in content. Please consider to add at least :min images to your content.', ['min' => $this->min]),
-            CheckingMessage::IMAGE_COUNT_VALIDATOR,
-            ['min' => $this->min, 'imageCount' => $this->imagesCount]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::WARNING)
+            ->setMsgId(MessageId::NO_IMAGE)
+            ->setMsg(__('No image found in content. Please consider to add at least :min images to your content.', [
+                'min' => $this->min
+            ]))
+            ->setData(['min' => $this->min, 'imageCount' => $this->imagesCount])
+            ->build();
     }
 }

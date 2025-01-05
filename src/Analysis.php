@@ -4,8 +4,7 @@ namespace Qmas\KeywordAnalytics;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
-use PHPHtmlParser\Dom;
-use PHPHtmlParser\Options;
+use Symfony\Component\DomCrawler\Crawler;
 use Qmas\KeywordAnalytics\Checkers\CheckContentLength;
 use Qmas\KeywordAnalytics\Checkers\CheckDescriptionLength;
 use Qmas\KeywordAnalytics\Checkers\CheckHeadingInContent;
@@ -26,40 +25,40 @@ use Qmas\KeywordAnalytics\Exceptions\KeywordNotSetException;
 class Analysis
 {
     /** @var bool $isFromRequest */
-    protected $isFromRequest = false;
+    protected bool $isFromRequest = false;
 
     /** @var string $keyword */
-    protected $keyword;
+    protected string $keyword;
 
     /** @var string $title */
-    protected $title;
+    protected string $title;
 
     /** @var string $description */
-    protected $description;
+    protected string $description;
 
     /** @var string $url */
-    protected $url;
+    protected string $url;
 
     /** @var string $html */
-    protected $html;
+    protected string $html;
 
     /** @var string $content */
-    protected $content;
+    protected string $content;
 
-    /** @var Dom $dom */
-    protected $dom;
+    /** @var Crawler $dom */
+    protected Crawler $dom;
 
-    /** @var Dom\Node\Collection $headings */
-    protected $headings;
+    /** @var Collection $headings */
+    protected Collection $headings;
 
-    /** @var Dom\Node\Collection $images */
-    protected $images;
+    /** @var Collection $images */
+    protected Collection $images;
 
-    /** @var Dom\Node\Collection $links */
-    protected $links;
+    /** @var Collection $links */
+    protected Collection $links;
 
     /** @var Collection $results */
-    protected $results;
+    protected Collection $results;
 
     /**
      * Analysis constructor.
@@ -72,14 +71,8 @@ class Analysis
     /**
      * Capture input data from request
      *
-     * @return $this
-     * @throws \PHPHtmlParser\Exceptions\ChildNotFoundException
-     * @throws \PHPHtmlParser\Exceptions\CircularException
-     * @throws \PHPHtmlParser\Exceptions\ContentLengthException
-     * @throws \PHPHtmlParser\Exceptions\LogicalException
-     * @throws \PHPHtmlParser\Exceptions\StrictException
-     * @throws \Qmas\KeywordAnalytics\Exceptions\KeywordNotSetException
-     * @throws \PHPHtmlParser\Exceptions\NotLoadedException
+     * @return self
+     * @throws KeywordNotSetException
      */
     public function fromRequest(): Analysis
     {
@@ -102,13 +95,8 @@ class Analysis
      * @param string|null $description
      * @param string|null $html
      * @param string|null $url
-     * @throws \PHPHtmlParser\Exceptions\ChildNotFoundException
-     * @throws \PHPHtmlParser\Exceptions\CircularException
-     * @throws \PHPHtmlParser\Exceptions\ContentLengthException
-     * @throws \PHPHtmlParser\Exceptions\LogicalException
-     * @throws \PHPHtmlParser\Exceptions\NotLoadedException
-     * @throws \PHPHtmlParser\Exceptions\StrictException
-     * @throws \Qmas\KeywordAnalytics\Exceptions\KeywordNotSetException
+     * @return void
+     * @throws KeywordNotSetException
      */
     public function prepareData(
         string $keyword = null,
@@ -116,7 +104,8 @@ class Analysis
         string $description = null,
         string $html = null,
         string $url = null
-    ) {
+    ): void
+    {
         if (! $keyword) {
             throw new KeywordNotSetException();
         }
@@ -126,18 +115,9 @@ class Analysis
         $this->description  = Helper::unicodeToAscii($description);
         $this->url          = Helper::unicodeToAscii(str_replace(['-', '_', '/'], ' ', $url));
         $this->html         = $this->stripUnnecessaryTags($html);
-        $this->content      = Helper::unicodeToAscii(Helper::stripHtmlTags($this->html));
+        $this->content      = Helper::unicodeToAscii(str($this->html)->stripTags()->squish());
 
-        $this->dom = new Dom();
-
-        $this->dom->setOptions(
-            (new Options())->setCleanupInput(true)
-                ->setRemoveScripts(true)
-                ->setRemoveSmartyScripts(true)
-                ->setRemoveStyles(true)
-        );
-
-        $this->dom->loadStr($this->html);
+        $this->dom = new Crawler($this->html);
 
         $this->findDomNodes();
     }
@@ -155,6 +135,10 @@ class Analysis
      */
     protected function stripUnnecessaryTags($html): string
     {
+        if (!$html) {
+            return '';
+        }
+        
         // Remove <head> tag and its content
         $html = preg_replace(
             '/<head(?:\s+[a-z]+\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+))*\s*>([\S\s]*)<\/head>/m',
@@ -175,25 +159,24 @@ class Analysis
         return $search > 1 ? collect($matches[2]) : collect([]);
     }
 
-    /**
-     * @throws \PHPHtmlParser\Exceptions\ChildNotFoundException
-     * @throws \PHPHtmlParser\Exceptions\NotLoadedException
-     */
-    protected function findDomNodes()
+    protected function findDomNodes(): void
     {
-        $this->images       = $this->dom->find('img');
-        $this->headings     = $this->dom->find('h1,h2,h3,h4,h5,h6');
-        $this->links        = $this->dom->find('a');
+        // Sử dụng DomCrawler để tìm các elements
+        $this->images = collect($this->dom->filter('img')->each(function (Crawler $node) {
+            return $node;
+        }));
+        
+        $this->headings = collect($this->dom->filter('h1,h2,h3,h4,h5,h6')->each(function (Crawler $node) {
+            return $node;
+        }));
+        
+        $this->links = collect($this->dom->filter('a')->each(function (Crawler $node) {
+            return $node;
+        }));
     }
 
     /**
-     * @throws \PHPHtmlParser\Exceptions\ChildNotFoundException
-     * @throws \Qmas\KeywordAnalytics\Exceptions\KeywordNotSetException
-     * @throws \PHPHtmlParser\Exceptions\ContentLengthException
-     * @throws \PHPHtmlParser\Exceptions\CircularException
-     * @throws \PHPHtmlParser\Exceptions\LogicalException
-     * @throws \PHPHtmlParser\Exceptions\StrictException
-     * @throws \PHPHtmlParser\Exceptions\NotLoadedException
+     * @throws KeywordNotSetException
      */
     public function run(
         string $keyword = '',

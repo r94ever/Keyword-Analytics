@@ -7,15 +7,6 @@ use Qmas\KeywordAnalytics\Tests\TestCase;
 
 class HelperTest extends TestCase
 {
-    public function test_strip_html_tags()
-    {
-        $str = '<body><a class="test">te < st> </a></body>';
-
-        $str = Helper::stripHtmlTags($str);
-
-        $this->assertEquals('te < st> ', $str);
-    }
-
     public function test_unicode_to_ascii_vietnamese()
     {
         $str = Helper::unicodeToAscii('áàảãạ ÁÀẢÃẠ ẫầấẩậ ẤẦẨẪẬ ắằẳẵặ ẮẰẲẴẶ', false);

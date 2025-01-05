@@ -2,26 +2,35 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
-use PHPHtmlParser\Dom\Node\HtmlNode;
-use Qmas\KeywordAnalytics\Abstracts\Checker;
+use Illuminate\Support\Str;
 use Qmas\KeywordAnalytics\CheckingMessage;
+use Qmas\KeywordAnalytics\Enums\CheckResultType;
+use Qmas\KeywordAnalytics\Enums\Field;
+use Qmas\KeywordAnalytics\Enums\MessageId;
+use Qmas\KeywordAnalytics\Enums\Validator;
 use Qmas\KeywordAnalytics\Helper;
 
 class CheckKeywordInImgAlt extends CheckImageInContent
 {
-    private $min;
+    private int $min;
 
-    protected $keyword;
+    protected string $keyword;
 
-    protected $keywordCount = 0;
+    protected int $keywordCount = 0;
+
+    protected CheckingMessage $message;
 
     public function __construct($images, $keyword)
     {
         parent::__construct($images);
 
-        $this->min = config('keyword-analytics.variables.keyword_in_alt_image.min');
+        $this->min = (int) config('keyword-analytics.variables.keyword_in_alt_image.min');
 
         $this->keyword = $keyword;
+
+        $this->message = CheckingMessage::make()
+            ->setValidatorName(Validator::KEYWORD_COUNT)
+            ->setField(Field::HTML);
     }
 
     public function check(): Checker
@@ -41,51 +50,46 @@ class CheckKeywordInImgAlt extends CheckImageInContent
         return $this;
     }
 
-    protected function countKeyword()
+    protected function countKeyword(): void
     {
-        $this->images->each(function ($image) {
-            /** @var HtmlNode $image */
-            $alt = Helper::unicodeToAscii($image->getAttribute('alt'));
+        foreach ($this->images as $image) {
+            $alt = Helper::unicodeToAscii($image->attr('alt'));
 
-            if (Helper::strContains($alt, $this->keyword)) {
+            if (Str::contains($alt, $this->keyword)) {
                 $this->keywordCount += 1;
             }
-        });
+        }
     }
 
     protected function msgIfContain(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::SUCCESS_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::SUCCESS_MSG_ID,
-            __('Great. The ALT attribute in your IMG tags containing the keyword.'),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ['min' => $this->min, 'keywordCount' => $this->keywordCount]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::SUCCESS)
+            ->setMsgId(MessageId::SUCCESS)
+            ->setMsg(__('Great. The ALT attribute in your IMG tags containing the keyword.'))
+            ->setData(['min' => $this->min, 'keywordCount' => $this->keywordCount])
+            ->build();
     }
 
     protected function msgIfTooLow(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::WARNING_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::KEYWORD_TOO_LOW_MSG_ID,
-            __('The keyword should appear in the ALT attribute of at least :min IMG tags', ['min' => $this->min]),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ['min' => $this->min, 'keywordCount' => $this->keywordCount]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::WARNING)
+            ->setMsgId(MessageId::KEYWORD_TOO_LOW)
+            ->setMsg(__('The keyword should appear in the ALT attribute of at least :min IMG tags', [
+                'min' => $this->min
+            ]))
+            ->setData(['min' => $this->min, 'keywordCount' => $this->keywordCount])
+            ->build();
     }
 
     protected function msgIfNotContain(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::ERROR_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::KEYWORD_NOT_FOUND_MSG_ID,
-            __('The ALT attribute in your IMG tags should contain the keyword.'),
-            CheckingMessage::KEYWORD_COUNT_VALIDATOR,
-            ['min' => $this->min, 'keywordCount' => 0]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::ERROR)
+            ->setMsgId(MessageId::KEYWORD_NOT_FOUND)
+            ->setMsg(__('The ALT attribute in your IMG tags should contain the keyword.'))
+            ->setData(['min' => $this->min, 'keywordCount' => 0])
+            ->build();
     }
 }

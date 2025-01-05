@@ -1,10 +1,12 @@
 <?php
 
-namespace Qmas\KeywordAnalytics\Abstracts;
+namespace Qmas\KeywordAnalytics\Checkers;
+
+use Illuminate\Support\Collection;
 
 abstract class Checker
 {
-    protected $result;
+    protected Collection $result;
 
     public function __construct()
     {

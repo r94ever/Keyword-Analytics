@@ -2,34 +2,42 @@
 
 namespace Qmas\KeywordAnalytics\Checkers;
 
-use PHPHtmlParser\Dom\Node\Collection;
-use Qmas\KeywordAnalytics\Abstracts\Checker;
+use Illuminate\Support\Collection;
 use Qmas\KeywordAnalytics\CheckingMessage;
+use Qmas\KeywordAnalytics\Enums\CheckResultType;
+use Qmas\KeywordAnalytics\Enums\Field;
+use Qmas\KeywordAnalytics\Enums\MessageId;
+use Qmas\KeywordAnalytics\Enums\Validator;
 
 class CheckHeadingInContent extends Checker
 {
-    private $min;
-
-    protected $dom;
+    private int $min;
 
     /** @var Collection $headings */
-    protected $headings;
+    protected Collection $headings;
 
     /** @var int $headingCount */
-    protected $headingCount = 0;
+    protected int $headingCount = 0;
+
+    /** @var CheckingMessage $message */
+    protected CheckingMessage $message;
 
     /**
      * CheckHeadingInContent constructor.
-     * @param $headings
+     * @param Collection $headings
      */
-    public function __construct($headings)
+    public function __construct(Collection $headings)
     {
         parent::__construct();
 
-        $this->min = config('keyword-analytics.variables.heading_in_content.min');
+        $this->min = (int) config('keyword-analytics.variables.heading_in_content.min');
 
         $this->headings = $headings;
-        $this->headingCount = $this->headings->count();
+        $this->headingCount = count($headings);
+
+        $this->message = CheckingMessage::make()
+            ->setValidatorName(Validator::HEADING)
+            ->setField(Field::HTML);
     }
 
     public function check(): Checker
@@ -49,37 +57,31 @@ class CheckHeadingInContent extends Checker
 
     protected function msgIfEmpty(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::IGNORED_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::IGNORE_MSG_ID,
-            __('The content should contain heading tags.'),
-            CheckingMessage::HEADING_VALIDATOR,
-            ["headingCount" => $this->headingCount, "min" => $this->min,]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::IGNORED)
+            ->setMsgId(MessageId::IGNORE)
+            ->setMsg(__('The content should contain heading tags.'))
+            ->setData(["headingCount" => $this->headingCount, "min" => $this->min])
+            ->build();
     }
 
     protected function msgIfTooLow(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::ERROR_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::IGNORE_MSG_ID,
-            __('The content should contain at least :num heading tags.', ['num' => $this->min]),
-            CheckingMessage::HEADING_VALIDATOR,
-            ["headingCount" => $this->headingCount, "min" => $this->min,]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::ERROR)
+            ->setMsgId(MessageId::IGNORE)
+            ->setMsg(__('The content should contain at least :num heading tags.', ['num' => $this->min]))
+            ->setData(["headingCount" => $this->headingCount, "min" => $this->min])
+            ->build();
     }
 
     protected function msgIfOk(): array
     {
-        return (new CheckingMessage(
-            CheckingMessage::SUCCESS_TYPE,
-            CheckingMessage::HTML_FIELD,
-            CheckingMessage::SUCCESS_MSG_ID,
-            __('The content is containing one or more heading tags.'),
-            CheckingMessage::HEADING_VALIDATOR,
-            ["headingCount" => $this->headingCount, "min" => $this->min,]
-        ))->build();
+        return $this->message
+            ->setType(CheckResultType::SUCCESS)
+            ->setMsgId(MessageId::SUCCESS)
+            ->setMsg(__('The content is containing one or more heading tags.'))
+            ->setData(["headingCount" => $this->headingCount, "min" => $this->min])
+            ->build();
     }
 }

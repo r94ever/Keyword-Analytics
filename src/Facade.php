@@ -18,8 +18,8 @@ class Facade extends BaseFacade
      *
      * @return string
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
-        return 'keyword-analytics';
+        return Analysis::class;
     }
 }

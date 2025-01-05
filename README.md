@@ -93,8 +93,12 @@ use Qmas\KeywordAnalytics\Facade as Analytic;
 
 $results = Analytic::fromRequest()->run()->getResults();
 
+dd($results);
+
 // Or
-$results = app('keyword-analytics')->fromRequest()->run()->getResults();
+use Qmas\KeywordAnalytics\Analysis;
+
+$results = app(Analysis::class)->fromRequest()->run()->getResults();
 
 dd($results);
 ```
@@ -118,12 +122,6 @@ $results = app(Analysis::class)->fromRequest()->run()->getResults();
 
 dd($results);
 ````
-
-### Testing
-
-```bash
-composer tests
-```
 
 ### Changelog
 

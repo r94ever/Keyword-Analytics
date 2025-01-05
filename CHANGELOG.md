@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-keyword-analytics` will be documented in this file
 
+## 2.0.0 - 2025-01-05
+
+- Support Laravel 11 or above
+
 ## 1.0.0 - 2021-06-23
 
 - Check keyword length.
