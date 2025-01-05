@@ -10,6 +10,7 @@ use Qmas\KeywordAnalytics\Enums\Field;
 use Qmas\KeywordAnalytics\Enums\MessageId;
 use Qmas\KeywordAnalytics\Enums\Validator;
 use Qmas\KeywordAnalytics\Helper;
+use Symfony\Component\DomCrawler\Crawler;
 
 class CheckKeywordInHeading extends Checker
 {
@@ -18,8 +19,8 @@ class CheckKeywordInHeading extends Checker
     /** @var string $keyword */
     protected string $keyword;
 
-    /** @var Collection */
-    protected Collection $headings;
+    /** @var Collection|Crawler[] */
+    protected Collection|array $headings;
 
     protected int $headingsContainKeyword = 0;
 
@@ -42,7 +43,7 @@ class CheckKeywordInHeading extends Checker
     public function check(): Checker
     {
         foreach ($this->headings as $heading) {
-            $innerHeading = Helper::unicodeToAscii($heading->innerHtml());
+            $innerHeading = Helper::unicodeToAscii($heading->innerText());
 
             if (Str::contains($innerHeading, $this->keyword)) {
                 $this->headingsContainKeyword += 1;
