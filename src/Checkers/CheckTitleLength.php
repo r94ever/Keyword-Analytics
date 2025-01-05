@@ -85,7 +85,7 @@ class CheckTitleLength extends Checker
                 'min' => $this->min,
                 'max' => $this->max
             ]))
-            ->setData(["length" => 0, "min" => $this->min, "max" => $this->max])
+            ->setData(["length" => $this->titleCharactersCount, "min" => $this->min, "max" => $this->max])
             ->build();
     }
 
