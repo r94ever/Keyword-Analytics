@@ -24,6 +24,7 @@
         "symfony/dom-crawler": "^7.2"
     },
     "require-dev": {
+        "orchestra/testbench": "10.x-dev",
         "phpunit/phpunit": "^11.0"
     },
     "autoload": {
