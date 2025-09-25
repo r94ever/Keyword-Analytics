@@ -48,7 +48,8 @@ class CheckKeywordDensity extends Checker
 
         $this->density = round(
             ($this->keywordCount / ($pageWord - ($this->keywordCount * ($keywordWord - 1)))) * 100,
-            2
+            2,
+            PHP_ROUND_HALF_UP
         );
 
         if ($this->density < $this->min) {

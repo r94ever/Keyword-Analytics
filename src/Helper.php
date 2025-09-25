@@ -18,24 +18,6 @@ class Helper
     }
 
     /**
-     * Convert all unicode words to ASCII
-     *
-     * @param ?string $string
-     * @param bool $lowercase
-     * @return string
-     */
-    public static function unicodeToAscii(?string $string = '', bool $lowercase = true): string
-    {
-        $transliterator = "Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC; [:Punctuation:] Remove;";
-
-        if ($lowercase) {
-            $transliterator .= " Lower();";
-        }
-
-        return transliterator_transliterate($transliterator, $string);
-    }
-
-    /**
      * Same as str_word_count() but support Unicode characters
      *
      * @param string $string
@@ -43,6 +25,6 @@ class Helper
      */
     public static function countWords(string $string): int
     {
-        return count(preg_split('/\W+/uim', $string, -1, PREG_SPLIT_NO_EMPTY));
+        return str($string)->transliterate()->wordCount();
     }
 }

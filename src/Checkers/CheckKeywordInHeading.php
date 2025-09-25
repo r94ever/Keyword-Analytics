@@ -43,7 +43,7 @@ class CheckKeywordInHeading extends Checker
     public function check(): Checker
     {
         foreach ($this->headings as $heading) {
-            $innerHeading = Helper::unicodeToAscii($heading->innerText());
+            $innerHeading = str($heading->innerText())->transliterate();
 
             if (Str::contains($innerHeading, $this->keyword)) {
                 $this->headingsContainKeyword += 1;
