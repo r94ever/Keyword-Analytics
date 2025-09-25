@@ -22,15 +22,7 @@ Analyze keywords in the content and make diagnostics to improve the seo score of
 
 #### Language Supported
 
-- English
-- Chinese
-- Spanish
-- French
-- Indonesian
-- Japanese
-- Portuguese
-- Russian
-- Vietnamese
+- Any language supported by PHP Intl extension.
 
 ## Requirements
 
