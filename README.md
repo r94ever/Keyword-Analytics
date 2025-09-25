@@ -34,7 +34,7 @@ Analyze keywords in the content and make diagnostics to improve the seo score of
 
 ## Requirements
 
-- PHP7.0+
+- PHP8.2+
 - ext-json
 - ext-intl
 
