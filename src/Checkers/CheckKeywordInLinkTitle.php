@@ -58,7 +58,7 @@ class CheckKeywordInLinkTitle extends Checker
     protected function countKeyword(): void
     {
         foreach ($this->links as $link) {
-            $title = Helper::unicodeToAscii($link->attr('title'));
+            $title = str($link->attr('title'))->transliterate();
 
             if (Str::contains($title, $this->keyword)) {
                 $this->keywordCount += 1;

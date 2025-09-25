@@ -30,8 +30,8 @@ class CheckKeywordInUrl extends Checker
         $this->min = (int) config('keyword-analytics.variables.keyword_in_url.min');
         $this->max = (int) config('keyword-analytics.variables.keyword_in_url.max');
 
-        $this->url = Helper::unicodeToAscii($url);
-        $this->keyword = Helper::unicodeToAscii($keyword);
+        $this->url = str($url)->transliterate();
+        $this->keyword = str($keyword)->transliterate();
         $this->keywordCount = $this->findKeywordInUrl();
 
         $this->message = CheckingMessage::make()

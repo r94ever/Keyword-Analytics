@@ -110,12 +110,12 @@ class Analysis
             throw new KeywordNotSetException();
         }
 
-        $this->keyword      = Helper::unicodeToAscii($keyword);
-        $this->title        = Helper::unicodeToAscii($title);
-        $this->description  = Helper::unicodeToAscii($description);
-        $this->url          = Helper::unicodeToAscii(str_replace(['-', '_', '/'], ' ', $url));
+        $this->keyword      = str($keyword)->transliterate();
+        $this->title        = str($title)->transliterate();
+        $this->description  = str($description)->transliterate();
+        $this->url          = str(str_replace(['-', '_', '/'], ' ', $url))->transliterate();
         $this->html         = $this->stripUnnecessaryTags($html);
-        $this->content      = Helper::unicodeToAscii(str($this->html)->stripTags()->squish());
+        $this->content      = str($this->html)->stripTags()->squish()->transliterate();
 
         $this->dom = new Crawler($this->html);
 
@@ -214,7 +214,7 @@ class Analysis
         $checker = new CheckKeywordLength($this->keyword);
         $result = $checker->check()->getResult();
 
-        $this->results = $this->results->concat($result);
+        $this->results = $this->results->concat($result->toArray());
 
         return $this;
     }
@@ -224,7 +224,7 @@ class Analysis
         $checker = new CheckTitleLength($this->title);
         $result = $checker->check()->getResult();
 
-        $this->results = $this->results->concat($result);
+        $this->results = $this->results->concat($result->toArray());
 
         return $this;
     }
@@ -234,7 +234,7 @@ class Analysis
         $checker = new CheckKeywordInTitle($this->keyword, $this->title);
         $result = $checker->check()->getResult();
 
-        $this->results = $this->results->concat($result);
+        $this->results = $this->results->concat($result->toArray());
 
         return $this;
     }
@@ -244,7 +244,7 @@ class Analysis
         $checker = new CheckDescriptionLength($this->description);
         $result = $checker->check()->getResult();
 
-        $this->results = $this->results->concat($result);
+        $this->results = $this->results->concat($result->toArray());
 
         return $this;
     }
@@ -255,7 +255,7 @@ class Analysis
             $checker = new CheckKeywordInDescription($this->keyword, $this->description);
             $result = $checker->check()->getResult();
 
-            $this->results = $this->results->concat($result);
+            $this->results = $this->results->concat($result->toArray());
         }
 
         return $this;
@@ -266,7 +266,7 @@ class Analysis
         $checker = new CheckContentLength($this->content);
         $result = $checker->check()->getResult();
 
-        $this->results = $this->results->concat($result);
+        $this->results = $this->results->concat($result->toArray());
 
         return $this;
     }
@@ -276,7 +276,7 @@ class Analysis
         $checker = new CheckKeywordInFirstParagraph($this->keyword, $this->html);
         $result = $checker->check()->getResult();
 
-        $this->results = $this->results->concat($result);
+        $this->results = $this->results->concat($result->toArray());
 
         return $this;
     }
@@ -287,7 +287,7 @@ class Analysis
             $checker = new CheckHeadingInContent($this->headings);
             $result = $checker->check()->getResult();
 
-            $this->results = $this->results->concat($result);
+            $this->results = $this->results->concat($result->toArray());
         }
 
         return $this;
@@ -299,7 +299,7 @@ class Analysis
             $checker = new CheckKeywordInHeading($this->keyword, $this->headings);
             $result = $checker->check()->getResult();
 
-            $this->results = $this->results->concat($result);
+            $this->results = $this->results->concat($result->toArray());
         }
 
         return $this;
@@ -311,7 +311,7 @@ class Analysis
             $checker = new CheckImageInContent($this->images);
             $result = $checker->check()->getResult();
 
-            $this->results = $this->results->concat($result);
+            $this->results = $this->results->concat($result->toArray());
         }
 
         return $this;
@@ -323,7 +323,7 @@ class Analysis
             $checker = new CheckKeywordInImgAlt($this->images, $this->keyword);
             $result = $checker->check()->getResult();
 
-            $this->results = $this->results->concat($result);
+            $this->results = $this->results->concat($result->toArray());
         }
 
         return $this;
@@ -335,7 +335,7 @@ class Analysis
             $checker = new CheckLinkInContent($this->links);
             $result = $checker->check()->getResult();
 
-            $this->results = $this->results->concat($result);
+            $this->results = $this->results->concat($result->toArray());
         }
 
         return $this;
@@ -347,7 +347,7 @@ class Analysis
             $checker = new CheckKeywordInLinkTitle($this->links, $this->keyword);
             $result = $checker->check()->getResult();
 
-            $this->results = $this->results->concat($result);
+            $this->results = $this->results->concat($result->toArray());
         }
 
         return $this;
@@ -359,7 +359,7 @@ class Analysis
             $checker = new CheckKeywordDensity($this->content, $this->keyword);
             $result = $checker->check()->getResult();
 
-            $this->results = $this->results->concat($result);
+            $this->results = $this->results->concat($result->toArray());
         }
 
         return $this;
@@ -370,7 +370,7 @@ class Analysis
         $checker = new CheckKeywordInUrl($this->url, $this->keyword);
         $result = $checker->check()->getResult();
 
-        $this->results = $this->results->concat($result);
+        $this->results = $this->results->concat($result->toArray());
 
         return $this;
     }

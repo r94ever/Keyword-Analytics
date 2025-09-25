@@ -46,7 +46,7 @@ class CheckKeywordInFirstParagraph extends Checker
         $matches = [];
         $search = preg_match('/<([a-zA-Z]+)>(.*?)<\/\1>/is', $this->html, $matches);
 
-        return $search === 1 ? Helper::unicodeToAscii($matches[2]) : '';
+        return $search === 1 ? str($matches[2] ?? '')->transliterate() : '';
     }
 
     public function check(): Checker

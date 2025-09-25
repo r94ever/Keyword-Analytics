@@ -53,7 +53,7 @@ class CheckKeywordInImgAlt extends CheckImageInContent
     protected function countKeyword(): void
     {
         foreach ($this->images as $image) {
-            $alt = Helper::unicodeToAscii($image->attr('alt'));
+            $alt = str($image->attr('alt'))->transliterate();
 
             if (Str::contains($alt, $this->keyword)) {
                 $this->keywordCount += 1;
