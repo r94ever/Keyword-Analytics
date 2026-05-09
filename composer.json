@@ -21,7 +21,7 @@
         "ext-intl": "*",
         "ext-json": "*",
         "laravel/framework": "^13.0",
-        "symfony/dom-crawler": "^8.1"
+        "symfony/dom-crawler": "^7.4"
     },
     "require-dev": {
         "orchestra/testbench": "11.1",
