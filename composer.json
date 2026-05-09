@@ -17,15 +17,15 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "ext-intl": "*",
         "ext-json": "*",
-        "laravel/framework": "^11.0|^12.0",
-        "symfony/dom-crawler": "^7.2"
+        "laravel/framework": "^13.0",
+        "symfony/dom-crawler": "^8.1"
     },
     "require-dev": {
-        "orchestra/testbench": "10.x-dev",
-        "phpunit/phpunit": "^11.0"
+        "orchestra/testbench": "11.1",
+        "phpunit/phpunit": "^12.5.12"
     },
     "autoload": {
         "psr-4": {
