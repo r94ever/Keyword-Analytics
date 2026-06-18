@@ -20,8 +20,9 @@
         "php": "^8.3",
         "ext-intl": "*",
         "ext-json": "*",
+        "guzzlehttp/psr7": "^2.12",
         "laravel/framework": "^13.0",
-        "symfony/dom-crawler": "^7.4"
+        "symfony/dom-crawler": "^7.4.12"
     },
     "require-dev": {
         "orchestra/testbench": "11.1",
